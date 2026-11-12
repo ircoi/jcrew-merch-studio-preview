@@ -49,6 +49,13 @@
         <div class="crumb"><span>MERCH STUDIO</span><b>/</b><span id="crumb-view">OVERVIEW</span></div>
         <div class="top-actions">
           <span class="date-label">WEEK 46 <i>·</i> NOV 9–15, 2026</span>
+          <label class="role-switch-label">VIEW AS
+            <select id="role-switch" aria-label="Switch demo role">
+              <option value="Merchandiser">Merchandiser</option>
+              <option value="Planner">Planner</option>
+              <option value="Allocator">Allocator</option>
+            </select>
+          </label>
           <button class="icon-button" aria-label="Notifications">♧<em></em></button>
           <button class="help-button">HELP &amp; NOTES</button>
         </div>
@@ -120,6 +127,18 @@
       <section class="view" id="view-merch">
         <div class="page-heading compact"><div><span class="eyebrow">MERCHANDISING DESK <i>·</i> SEASON 4</span><h1>Assortment <em>performance</em></h1><p>Review style performance, lifecycle, margin and channel mix.</p></div><button class="primary-button" data-view="trends">Open trend review <span>→</span></button></div>
         <div class="role-strip"><span>YOUR ROLE</span><b>MERCHANDISER</b><span>FOCUS</span><b>ASSORTMENT HEALTH · LIFECYCLE · TREND VALIDATION</b></div>
+        <article class="panel asset-panel">
+          <div class="panel-heading"><div><span class="eyebrow">SKU ASSET MANAGER</span><h2>Upload and verify product images</h2><p>Select an ERP SKU, choose the image type and review the match before saving.</p></div><span class="source-tag">LOCAL DEMO · AI NOT CONNECTED</span></div>
+          <div class="asset-workflow">
+            <label class="field-label">SKU<select id="asset-sku" class="field-input"></select></label>
+            <label class="field-label">IMAGE TYPE<select id="asset-type" class="field-input"><option>Primary</option><option>On-model</option><option>Detail</option></select></label>
+            <label class="asset-file" for="asset-file"><b>Choose product image</b><small>JPG, PNG or WebP · local preview only</small></label><input id="asset-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <button class="outline-button" id="validate-asset" disabled>Run demo match check</button>
+            <button class="primary-button" id="save-asset" disabled>Save SKU image <span>→</span></button>
+          </div>
+          <div class="asset-preview-row"><div id="asset-preview" class="asset-preview"><span>NO IMAGE SELECTED</span></div><div class="asset-check" id="asset-check">Select an SKU and image to start. This prototype does not run OCR or image recognition.</div></div>
+          <div class="table-scroll asset-table"><table><thead><tr><th>SKU</th><th>STYLE / COLOR</th><th>PRIMARY IMAGE</th><th>ASSET STATUS</th><th>OWNER</th></tr></thead><tbody id="asset-rows"></tbody></table></div>
+        </article>
         <div class="kpi-grid three">
           <article class="kpi-card"><div class="kpi-top"><span>ACTIVE STYLES</span><span class="kpi-icon">◇</span></div><strong>184</strong><div class="kpi-foot">Across 12 demo classifications <small>ASSORTMENT SNAPSHOT</small></div></article>
           <article class="kpi-card"><div class="kpi-top"><span>WINNERS TO WATCH</span><span class="kpi-icon">↗</span></div><strong>12</strong><div class="kpi-foot"><span class="positive">7 above plan</span><small>SEASON TO DATE</small></div></article>
@@ -136,10 +155,11 @@
       <section class="view" id="view-planning">
         <div class="page-heading compact"><div><span class="eyebrow">PLANNING DESK <i>·</i> SEASON 4</span><h1>Plan vs <em>actual</em></h1><p>Review sales, inventory, margin and forecast scenarios.</p></div><button class="primary-button" id="scenario-button">Create scenario <span>＋</span></button></div>
         <div class="role-strip"><span>YOUR ROLE</span><b>PLANNER</b><span>FOCUS</span><b>SALES · INVENTORY · MARGIN · FORECAST ACCURACY</b></div>
-        <div class="kpi-grid three">
-          <article class="kpi-card"><div class="kpi-top"><span>SEASON NET SALES PLAN</span><span class="kpi-icon">↗</span></div><strong>$42.8M</strong><div class="kpi-foot">Demo seasonal plan <small>USD · SIMULATED</small></div></article>
+        <div class="kpi-grid planner-metrics">
+          <article class="kpi-card"><div class="kpi-top"><span>NET SALES PLAN</span><span class="kpi-icon">↗</span></div><strong>$42.8M</strong><div class="kpi-foot">Season to date <small>USD · DEMO</small></div></article>
           <article class="kpi-card"><div class="kpi-top"><span>ACTUAL VS PLAN</span><span class="kpi-icon">◌</span></div><strong>+4.8%</strong><div class="kpi-foot"><span class="positive">Ahead</span> through Week 46 <small>DEMO LEDGER</small></div></article>
-          <article class="kpi-card"><div class="kpi-top"><span>PROJECTED ENDING WOS</span><span class="kpi-icon">⌁</span></div><strong>7.2 <small class="unit">WKS</small></strong><div class="kpi-foot"><span class="negative">Target 6.6 wks</span><small>SIMULATED PROJECTION</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>OTB REMAINING</span><span class="kpi-icon">＄</span></div><strong>$2.5M</strong><div class="kpi-foot">$8.4M budget − $5.9M committed <small>SIMULATED COMMITMENTS</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>SELL-THROUGH / WOS</span><span class="kpi-icon">⌁</span></div><strong>68.4%</strong><div class="kpi-foot">7.2 weeks supply <small>SIMULATED PROJECTION</small></div></article>
         </div>
         <div class="content-grid planning-content">
           <article class="panel wide-panel"><div class="panel-heading"><div><span class="eyebrow">REGIONAL WEATHER INPUTS</span><h2>Seasonal outlook by region</h2><p>Illustrative values only. Long-range climate outlooks are probabilistic, not store-level forecasts.</p></div><span class="source-tag">NOAA/NWS · NOT CONNECTED</span></div>
@@ -155,16 +175,18 @@
         <div class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">PLAN VS ACTUAL · DEMO</span><h2>By merchandise group</h2></div><button class="text-button" data-view="data">See metric definitions <b>→</b></button></div>
           <div class="table-scroll"><table><thead><tr><th>GROUP</th><th>SALES PLAN</th><th>ACTUAL</th><th>VARIANCE</th><th>INVENTORY HEALTH</th><th>PLANNER NOTE</th></tr></thead><tbody id="plan-rows"></tbody></table></div>
         </div>
+        <article class="panel formula-panel"><span class="eyebrow">METRIC DEFINITIONS · DEMO DEFAULTS</span><div><b>OTB remaining</b><span>OTB budget − open-to-buy commitments. Confirm inclusion of receipts, on-order and cancellations with Finance/Planning.</span></div><div><b>Sell-through</b><span>Units sold ÷ (units sold + ending on-hand). Production definition must specify returns and stockout handling.</span></div><div><b>WOS</b><span>Available units ÷ average weekly unit sales. The sales lookback and treatment of zero demand must be configured.</span></div><div><b>GMV</b><span>Not yet shown: gross merchandise value needs an agreed gross/net, discount and return policy before calculation.</span></div></article>
       </section>
 
       <section class="view" id="view-allocation">
         <div class="page-heading compact"><div><span class="eyebrow">ALLOCATION DESK <i>·</i> SEASON 4</span><h1>Store <em>replenishment</em></h1><p>Review suggested quantities before approval or export.</p></div><button class="primary-button" id="export-alloc">Export review CSV <span>↓</span></button></div>
         <div class="role-strip"><span>YOUR ROLE</span><b>ALLOCATOR</b><span>FOCUS</span><b>STORE COVER · SIZE CURVE · REPLENISHMENT · TRANSFERS</b></div>
         <div class="allocation-summary"><div><span class="eyebrow">PROPOSALS READY</span><strong>03</strong><small>Require human review</small></div><div><span class="eyebrow">LOW COVER FLAGS</span><strong>07</strong><small>Across 5 demo locations</small></div><div><span class="eyebrow">TRANSFER OPPORTUNITY</span><strong>02</strong><small>Inventory imbalance detected</small></div><div><span class="eyebrow">DATA HEALTH</span><strong class="health-good">96%</strong><small>Demo record completeness</small></div></div>
-        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">REPLENISHMENT REVIEW QUEUE</span><h2>Suggested actions with their receipts.</h2><p>Suggestions are simulations; nothing is sent to stores or order systems.</p></div><button class="select-button" id="alloc-filter">All priorities⌄</button></div>
-          <div class="table-scroll"><table><thead><tr><th>STYLE / COLOR</th><th>LOCATION</th><th>ON HAND</th><th>WEEKLY RATE</th><th>COVER</th><th>SUGGESTED QTY</th><th>WHY THIS, WHY NOW</th><th>REVIEW</th></tr></thead><tbody id="allocation-rows"></tbody></table></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">REPLENISHMENT REVIEW QUEUE</span><h2>Transfer proposals</h2><p>Suggested quantity is capped by donor stock and quota; review before submitting for Merch approval.</p></div><button class="select-button" id="alloc-filter">All priorities⌄</button></div>
+          <div class="table-scroll"><table><thead><tr><th>STYLE / SKU</th><th>IMAGE</th><th>RECEIVING STORE</th><th>DONOR STORE</th><th>RECEIVER ON HAND</th><th>WEEKLY RATE</th><th>INBOUND</th><th>PROPOSED QTY</th><th>QUOTA</th><th>REASON</th><th>SELECT</th></tr></thead><tbody id="allocation-rows"></tbody></table></div>
+          <div class="submit-transfer"><span id="selected-transfer-count">0 proposals selected</span><button class="primary-button" id="submit-transfers" disabled>Submit for Merch approval <span>→</span></button></div>
         </article>
-        <article class="panel allocation-method"><span class="eyebrow">HOW TO READ THE SUGGESTION</span><p><b>Suggested quantity</b> = target cover × observed weekly unit rate − available inventory − confirmed in-transit units. This demo uses synthetic inputs. Production calculations must include size-level demand, store capacity, pack rules, lead time and approved inventory policy.</p></article>
+        <article class="panel allocation-method"><span class="eyebrow">DEMO CALCULATION</span><p><b>Need</b> = max(0, target cover × weekly unit rate − receiver on hand − confirmed inbound). <b>Proposed transfer</b> = min(need, donor available, quota remaining, pack/capacity limits). The demo checks donor available and quota. Size-level matching, no-transfer rules, lead time, pack rules and live Blue Yonder constraints are not connected.</p></article>
       </section>
 
       <section class="view" id="view-trends">
@@ -182,6 +204,7 @@
       <section class="view" id="view-actions">
         <div class="page-heading compact"><div><span class="eyebrow">ACTION CENTER <i>·</i> WEEK 46</span><h1>Action <em>queue</em></h1><p>Tasks, approvals, owners and due dates.</p></div><button class="primary-button" id="new-action">＋ New action</button></div>
         <div class="action-filters"><button class="active">MY QUEUE <b>4</b></button><button>TEAM <b>8</b></button><button>APPROVALS <b>2</b></button><button>COMPLETED</button></div>
+        <article class="panel approval-panel"><div class="panel-heading"><div><span class="eyebrow">MERCH APPROVAL QUEUE</span><h2>Transfer requests</h2><p>Review and approve or reject requests submitted from Allocation.</p></div><span class="source-tag">DEMO WORKFLOW</span></div><div id="approval-list" class="approval-list"><p class="empty-state">No transfer requests submitted.</p></div></article>
         <article class="panel action-panel"><div class="action-list" id="action-list"></div></article>
       </section>
 
@@ -207,7 +230,7 @@
     </main>
   </div>
   <div class="toast" id="toast" role="status"></div>
-  <dialog id="decision-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">REVIEW DECISION</span><h2 id="dialog-title">Review action</h2><p id="dialog-copy"></p><label class="field-label">DECISION NOTE<textarea class="field-input" rows="3" placeholder="Add context for the team..."></textarea></label><div class="dialog-actions"><button class="outline-button" value="dismiss">Keep in queue</button><button class="primary-button" id="approve-action" value="confirm">Mark reviewed <span>→</span></button></div></form></dialog>
+  <dialog id="decision-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">REVIEW DECISION</span><h2 id="dialog-title">Review action</h2><p id="dialog-copy"></p><label class="field-label">DECISION NOTE<textarea id="decision-note" class="field-input" rows="3" placeholder="Add context for the team..."></textarea></label><div class="dialog-actions"><button class="outline-button" value="dismiss">Keep in queue</button><button class="primary-button" id="approve-action" value="confirm">Mark reviewed <span>→</span></button></div></form></dialog>
   <script src="app.js"></script>
 </body>
 </html>

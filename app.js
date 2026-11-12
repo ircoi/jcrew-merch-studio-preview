@@ -21,11 +21,11 @@ const regions = [
   ["Pacific","49°–64°","Coastal / inland split","Layering, lighter outerwear","DEMO · MEDIUM"]
 ];
 const allocation = [
-  ["Cashmere Crewneck · Oat","NYC · UES 014",18,11,1.6,18,"Strong sell-through; 2 sizes under 1 week"],
-  ["Quilted Barn Jacket · Olive","Boston · Newbury 027",14,8,1.8,12,"Cold outlook + above-plan rate"],
-  ["Fair Isle Cardigan · Multi","Chicago · North 041",12,7,1.7,10,"Replenishment window; size M at risk"],
-  ["Wool Topcoat · Navy","Seattle · Downtown 063",26,6,4.3,0,"Healthy cover; no action suggested"],
-  ["Ribbed Turtleneck · Burgundy","Atlanta · Ponce 052",9,6,1.5,8,"Fast rate; check confirmed inbound"]
+  {sku:"KN-1042",style:"Cashmere Crewneck · Oat",receive:"NYC · UES 014",donor:"NYC · Flatiron 008",onHand:18,weekly:11,inbound:0,donorAvailable:22,quota:18,targetCover:3,reason:"3 sizes below 1 week; donor cover remains above target"},
+  {sku:"OT-2290",style:"Quilted Barn Jacket · Olive",receive:"Boston · Newbury 027",donor:"Boston · Chestnut Hill 019",onHand:14,weekly:8,inbound:0,donorAvailable:20,quota:12,targetCover:3,reason:"Low receiver cover; donor stock and quota available"},
+  {sku:"KN-1184",style:"Fair Isle Cardigan · Multi",receive:"Chicago · North 041",donor:"Chicago · Oakbrook 035",onHand:12,weekly:7,inbound:0,donorAvailable:14,quota:10,targetCover:3,reason:"Size M risk; donor stock available"},
+  {sku:"OT-2021",style:"Wool Topcoat · Navy",receive:"Seattle · Downtown 063",donor:"Seattle · University 058",onHand:26,weekly:6,inbound:0,donorAvailable:18,quota:12,targetCover:3,reason:"Receiver cover above target; no transfer need"},
+  {sku:"KN-1055",style:"Ribbed Turtleneck · Burgundy",receive:"Atlanta · Ponce 052",donor:"Atlanta · Buckhead 049",onHand:9,weekly:6,inbound:2,donorAvailable:8,quota:8,targetCover:3,reason:"Fast rate; subtract 2 confirmed inbound units"}
 ];
 const tasks = [
   ["09","NOV","ALLOCATION","Review cashmere cover in Northeast","3 locations are below 2 weeks of cover. Check size availability before approving suggested units.","Alex Morgan","HIGH"],
@@ -69,6 +69,13 @@ const trendIdeas = [
   ["Heritage outerwear","SHAPE","Classic coat","A timeless outerwear lens; test against lead times and demand.","#e5dfd4","#526570","linear-gradient(90deg,transparent 48%,#b5a27f 49% 52%,transparent 53%)","17px 17px"],
   ["Holiday jewel tone","COLOR","Jewel palette","Seasonal color story to compare with historical gift sales.","#e4ddd5","#8a4c55","radial-gradient(circle,#c6a56d 1px,transparent 2px)","12px 12px"]
 ];
+const ASSET_STORAGE_KEY="merchStudioSkuAssets";
+const assetBySku=loadAssets();
+let selectedAssetFile=null;
+let assetCheckPassed=false;
+const transferRequests=[];
+let nextTransferId=1;
+let pendingTransferDecision=null;
 
 const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const statusClass = status => status.toLowerCase().includes("watch") ? "watch" : status.toLowerCase().includes("risk") ? "risk" : "";
@@ -90,13 +97,73 @@ function renderPlanRows(){
   document.querySelector("#plan-rows").innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td class="${r[3].startsWith("+")?"positive-text":"negative-text"}">${r[3]}</td><td><span class="status-pill ${r[4].includes("Tight")?"watch":""}">${r[4]}</span></td><td>${r[5]}</td></tr>`).join("");
 }
 function renderAllocation(){
-  document.querySelector("#allocation-rows").innerHTML=allocation.map((a,i)=>`<tr><td><b>${a[0]}</b></td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td class="${a[4]<2?"negative-text":"positive-text"}">${a[4]} wks</td><td><b>${a[5]}</b></td><td>${a[6]}</td><td><div class="decision-cell"><button class="tiny-button good" data-decision="Approve ${a[0]} for ${a[1]}">Review</button><button class="tiny-button" data-decision="Edit ${a[0]} for ${a[1]}">Edit</button></div></td></tr>`).join("");
+  document.querySelector("#allocation-rows").innerHTML=allocation.map(a=>{
+    const need=Math.max(0,Math.ceil(a.targetCover*a.weekly-a.onHand-a.inbound));
+    const proposed=Math.min(need,a.donorAvailable,a.quota);
+    const productImage=assetBySku[a.sku];
+    return `<tr><td><b>${escapeHTML(a.style)}</b><small class="sku-code">${a.sku}</small></td><td>${productImage?`<img class="sku-thumb" src="${productImage.data}" alt="${escapeHTML(a.style)}">`:'<span class="image-pending">NO IMAGE</span>'}</td><td>${escapeHTML(a.receive)}</td><td>${escapeHTML(a.donor)}<small class="sku-code">${a.donorAvailable} available</small></td><td>${a.onHand}</td><td>${a.weekly}</td><td>${a.inbound}</td><td class="${proposed?"positive-text":"muted-cell"}">${proposed}</td><td>${a.quota}</td><td>${escapeHTML(a.reason)}</td><td>${proposed?`<input class="transfer-check" type="checkbox" data-transfer-sku="${a.sku}" aria-label="Select ${escapeHTML(a.style)} transfer">`:'<span class="image-pending">NO NEED</span>'}</td></tr>`;
+  }).join("");
+  updateSelectedTransfers();
+}
+function loadAssets(){
+  try{return JSON.parse(localStorage.getItem(ASSET_STORAGE_KEY)||"{}")}
+  catch(error){console.warn("Could not load demo SKU images from local storage.",error);return {}}
+}
+function renderAssets(){
+  const skuSelect=document.querySelector("#asset-sku");
+  if(!skuSelect.options.length){
+    skuSelect.innerHTML=styles.map(s=>`<option value="${s[3]}">${s[3]} · ${escapeHTML(s[0])} · ${escapeHTML(s[2])}</option>`).join("");
+  }
+  document.querySelector("#asset-rows").innerHTML=styles.map(s=>{
+    const asset=assetBySku[s[3]];
+    return `<tr><td><b>${s[3]}</b></td><td>${escapeHTML(s[0])} · ${escapeHTML(s[2])}</td><td>${asset?`<img class="sku-thumb" src="${asset.data}" alt="${escapeHTML(s[0])}">`:'<span class="image-pending">NO ASSET</span>'}</td><td><span class="status-pill ${asset?"":"watch"}">${asset?escapeHTML(asset.type.toUpperCase()):"NEEDS IMAGE"}</span></td><td>${asset?escapeHTML(asset.owner):"MERCH"}</td></tr>`;
+  }).join("");
+  document.querySelector("#allocation-rows")&&renderAllocation();
+}
+function setAssetCheck(message,passed=false){
+  assetCheckPassed=passed;
+  document.querySelector("#asset-check").textContent=message;
+  document.querySelector("#save-asset").disabled=!passed;
+}
+function getRole(){return document.querySelector("#role-switch").value}
+function requireRole(role){
+  if(getRole()!==role){showToast(`Switch demo role to ${role} to use this action.`);return false}
+  return true;
+}
+function allocationProposal(item){
+  const need=Math.max(0,Math.ceil(item.targetCover*item.weekly-item.onHand-item.inbound));
+  return Math.min(need,item.donorAvailable,item.quota);
+}
+function updateSelectedTransfers(){
+  const selected=[...document.querySelectorAll(".transfer-check:checked")];
+  const button=document.querySelector("#submit-transfers");
+  if(!button)return;
+  document.querySelector("#selected-transfer-count").textContent=`${selected.length} proposal${selected.length===1?"":"s"} selected`;
+  button.disabled=selected.length===0;
+}
+function renderApprovals(){
+  const container=document.querySelector("#approval-list");
+  if(!transferRequests.length){container.innerHTML='<p class="empty-state">No transfer requests submitted.</p>';return}
+  container.innerHTML=transferRequests.map(request=>`<div class="approval-row"><div><b>Transfer request ${request.id}</b><small>${request.items.map(item=>`${escapeHTML(item.style)}: ${item.quantity} units to ${escapeHTML(item.receive)}`).join(" · ")}${request.note?`<br>Decision note: ${escapeHTML(request.note)}`:""}${request.decidedBy?`<br>Reviewed by ${escapeHTML(request.decidedBy)}`:""}</small></div><span class="status-pill ${request.status==="Pending Merch approval"?"watch":request.status==="Approved"?"":"risk"}">${request.status.toUpperCase()}</span>${request.status==="Pending Merch approval"&&getRole()==="Merchandiser"?`<div class="decision-cell"><button class="tiny-button good" data-transfer-decision="${request.id}:approve">Approve</button><button class="tiny-button" data-transfer-decision="${request.id}:reject">Reject</button></div>`:""}</div>`).join("");
+}
+function submitSelectedTransfers(){
+  if(!requireRole("Allocator"))return;
+  const skus=[...document.querySelectorAll(".transfer-check:checked")].map(input=>input.dataset.transferSku);
+  if(!skus.length)return;
+  const items=skus.map(sku=>{
+    const data=allocation.find(item=>item.sku===sku);
+    return {...data,quantity:allocationProposal(data)};
+  }).filter(item=>item.quantity>0);
+  if(!items.length){showToast("No eligible transfer quantities remain.");return}
+  transferRequests.unshift({id:`TR-${String(nextTransferId++).padStart(4,"0")}`,items,status:"Pending Merch approval",createdAt:new Date().toISOString()});
+  renderApprovals();document.querySelectorAll(".transfer-check").forEach(input=>input.checked=false);updateSelectedTransfers();
+  showToast("Transfer request submitted to Merch approval queue.");
 }
 function renderTrends(){
   document.querySelector("#trend-grid").innerHTML=trendIdeas.map((t,i)=>`<article class="trend-card"><div class="trend-art look-${i%5+1}" style="--artbg:${t[4]};--fabric:${t[5]};--pattern:${t[6]};--size:${t[7]};--tilt:${i%2?"2deg":"-2deg"}"><span class="pattern"></span><span class="shape-accent"></span><span class="art-caption">ORIGINAL DEMO ART · NOT SOURCE MEDIA</span></div><div class="trend-card-body"><div class="trend-id"><span>CONCEPT ${String(i+1).padStart(2,"0")}</span><span>${t[1]}</span></div><h3>${t[0]}</h3><p>${t[3]}</p><footer><span>SIMULATED CUE</span><span class="signal-confidence">NEEDS VALIDATION</span></footer></div></article>`).join("");
 }
 function renderTasks(){
-  document.querySelector("#action-list").innerHTML=tasks.map((t,i)=>`<div class="action-row ${t[7]==="DONE"?"done":""}" data-task-index="${i}"><div class="action-date"><b>${t[0]}</b>${t[1]}</div><div class="action-kind">${t[2]}</div><div class="action-desc"><b>${t[3]}</b><p>${t[4]}</p></div><div class="action-owner">${t[5]}<small>${t[7]}</small></div><button class="tiny-button" data-decision="${t[3]}">Open →</button></div>`).join("");
+  document.querySelector("#action-list").innerHTML=tasks.map((t,i)=>`<div class="action-row ${t[6]==="DONE"?"done":""}" data-task-index="${i}"><div class="action-date"><b>${t[0]}</b>${t[1]}</div><div class="action-kind">${t[2]}</div><div class="action-desc"><b>${t[3]}</b><p>${t[4]}</p></div><div class="action-owner">${t[5]}<small>${t[6]}</small></div><button class="tiny-button" data-decision="${t[3]}">Open →</button></div>`).join("");
 }
 function showToast(message){
   const el=document.querySelector("#toast");el.textContent=message;el.classList.add("show");
@@ -108,6 +175,9 @@ function setView(name){
   document.querySelector(`#view-${name}`)?.classList.add("active-view");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
   document.querySelector("#crumb-view").textContent=labels[name]||name.toUpperCase();
+  if(name==="merch")renderAssets();
+  if(name==="allocation")renderAllocation();
+  if(name==="actions")renderApprovals();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 document.addEventListener("click",event=>{
@@ -119,13 +189,57 @@ document.addEventListener("click",event=>{
     document.querySelector("#dialog-title").textContent=decision.dataset.decision;
     document.querySelector("#dialog-copy").textContent="Review the supporting data and document your decision. This prototype does not write to an inventory, order or planning system.";
     dialog.showModal();
+    return;
+  }
+  const transferDecision=event.target.closest("[data-transfer-decision]");
+  if(transferDecision){
+    if(!requireRole("Merchandiser"))return;
+    const [id,decisionType]=transferDecision.dataset.transferDecision.split(":");
+    const request=transferRequests.find(item=>item.id===id);
+    if(!request)return;
+    pendingTransferDecision={id,decisionType};
+    document.querySelector("#dialog-title").textContent=`${decisionType==="approve"?"Approve":"Reject"} transfer ${id}`;
+    document.querySelector("#dialog-copy").textContent=request.items.map(item=>`${item.quantity} units of ${item.style} to ${item.receive}`).join("; ");
+    document.querySelector("#decision-note").value="";
+    document.querySelector("#decision-note").required=decisionType==="reject";
+    document.querySelector("#approve-action").innerHTML=decisionType==="approve"?'Approve request <span>→</span>':'Reject request <span>→</span>';
+    document.querySelector("#decision-dialog").showModal();
   }
 });
-document.querySelector("#approve-action").addEventListener("click",()=>{
+document.querySelector("#approve-action").addEventListener("click",event=>{
+  if(pendingTransferDecision){
+    const note=document.querySelector("#decision-note").value.trim();
+    if(pendingTransferDecision.decisionType==="reject"&&!note){
+      event.preventDefault();
+      document.querySelector("#decision-note").setCustomValidity("Add a rejection reason before submitting.");
+      document.querySelector("#decision-note").reportValidity();
+      return;
+    }
+    document.querySelector("#decision-note").setCustomValidity("");
+    const request=transferRequests.find(item=>item.id===pendingTransferDecision.id);
+    if(request){
+      request.status=pendingTransferDecision.decisionType==="approve"?"Approved":"Rejected";
+      request.decidedBy=getRole();
+      request.note=note;
+      renderApprovals();
+      showToast(`Transfer request ${request.id} ${request.status.toLowerCase()}.`);
+    }
+    pendingTransferDecision=null;
+    document.querySelector("#approve-action").innerHTML='Mark reviewed <span>→</span>';
+    document.querySelector("#decision-note").required=false;
+    return;
+  }
   const title=document.querySelector("#dialog-title").textContent;
   const task=tasks.find(t=>t[3]===title);
-  if(task)task[7]="DONE";
+  if(task)task[6]="DONE";
   renderTasks();showToast("Decision note saved in this demo session.");
+});
+document.querySelector("#decision-note").addEventListener("input",event=>event.target.setCustomValidity(""));
+document.querySelector("#decision-dialog").addEventListener("close",()=>{
+  pendingTransferDecision=null;
+  document.querySelector("#approve-action").innerHTML='Mark reviewed <span>→</span>';
+  document.querySelector("#decision-note").required=false;
+  document.querySelector("#decision-note").setCustomValidity("");
 });
 document.querySelector("#style-search").addEventListener("input",e=>renderMerchRows(e.target.value));
 document.querySelector("#scenario-button").addEventListener("click",()=>showToast("Scenario draft created. Connect verified sales and supply data to calculate impact."));
@@ -133,6 +247,88 @@ document.querySelector("#run-scenario").addEventListener("click",()=>showToast("
 document.querySelector("#trend-refresh").addEventListener("click",()=>showToast("Source status checked: Vogue RSS link available; Instagram requires authorized API setup."));
 document.querySelector("#alloc-filter").addEventListener("click",()=>showToast("Filter options are available in the full product; demo shows all proposals."));
 document.querySelector("#new-action").addEventListener("click",()=>showToast("New action form would capture owner, due date, evidence and approval path."));
+document.querySelector("#submit-transfers").addEventListener("click",submitSelectedTransfers);
+document.querySelector("#allocation-rows").addEventListener("change",event=>{
+  if(event.target.matches(".transfer-check"))updateSelectedTransfers();
+});
+document.querySelector("#role-switch").addEventListener("change",event=>{
+  const role=event.target.value;
+  const names={Merchandiser:["Alex Morgan","Merchandising · East"],Planner:["Sam Rivera","Planning · US"],Allocator:["Jordan Kim","Allocation · East"]};
+  document.querySelector(".profile-button b").textContent=names[role][0];
+  document.querySelector(".profile-button small").textContent=names[role][1];
+  renderApprovals();
+});
+document.querySelector("#asset-file").addEventListener("change",event=>{
+  const file=event.target.files?.[0];
+  const preview=document.querySelector("#asset-preview");
+  selectedAssetFile=null;
+  document.querySelector("#validate-asset").disabled=true;
+  document.querySelector("#save-asset").disabled=true;
+  if(!file){preview.innerHTML="<span>NO IMAGE SELECTED</span>";setAssetCheck("Select an SKU and image to start. This prototype does not run OCR or image recognition.");return}
+  if(!requireRole("Merchandiser")){event.target.value="";return}
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+    showToast("Choose a JPG, PNG or WebP image.");
+    event.target.value="";return;
+  }
+  if(file.size>5*1024*1024){
+    showToast("Image exceeds the 5 MB demo limit.");
+    event.target.value="";return;
+  }
+  selectedAssetFile=file;
+  const url=URL.createObjectURL(file);
+  preview.innerHTML=`<img src="${url}" alt="Selected product image">`;
+  document.querySelector("#validate-asset").disabled=false;
+  setAssetCheck("Image selected. Run the demo check; it only tests filename text and does not analyze image content.");
+});
+document.querySelector("#validate-asset").addEventListener("click",()=>{
+  if(!requireRole("Merchandiser")||!selectedAssetFile)return;
+  const sku=document.querySelector("#asset-sku").value;
+  const fileName=selectedAssetFile.name.toLowerCase();
+  const otherSku=styles.find(style=>style[3]!==sku&&fileName.includes(style[3].toLowerCase()));
+  if(otherSku){
+    setAssetCheck(`Mismatch: filename contains ${otherSku[3]}, but selected SKU is ${sku}. Submission blocked.`,false);
+    showToast("SKU mismatch found from filename; image not saved.");
+    return;
+  }
+  setAssetCheck(`Demo check passed for ${sku}. Filename check only; a real image/OCR validation service is not connected.`,true);
+});
+document.querySelector("#save-asset").addEventListener("click",async()=>{
+  if(!requireRole("Merchandiser")||!assetCheckPassed||!selectedAssetFile)return;
+  const sku=document.querySelector("#asset-sku").value;
+  try{
+    const imageData=await createThumbnail(selectedAssetFile);
+    assetBySku[sku]={data:imageData,type:document.querySelector("#asset-type").value,owner:"Alex Morgan · Merch"};
+    localStorage.setItem(ASSET_STORAGE_KEY,JSON.stringify(assetBySku));
+    renderAssets();
+    document.querySelector("#asset-file").value="";
+    selectedAssetFile=null;
+    document.querySelector("#asset-preview").innerHTML="<span>IMAGE SAVED</span>";
+    document.querySelector("#validate-asset").disabled=true;
+    setAssetCheck(`Image linked to ${sku} in this browser. No server upload occurred.`);
+    showToast(`Image linked to ${sku} for this browser demo.`);
+  }catch(error){
+    console.error("Could not save the demo image.",error);
+    setAssetCheck(`Could not save image locally: ${error.message}`,false);
+  }
+});
+function createThumbnail(file){
+  return new Promise((resolve,reject)=>{
+    const image=new Image(),url=URL.createObjectURL(file);
+    image.onload=()=>{
+      URL.revokeObjectURL(url);
+      const scale=Math.min(1,600/Math.max(image.naturalWidth,image.naturalHeight));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));
+      canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+      const context=canvas.getContext("2d");
+      if(!context){reject(new Error("Browser image processing is unavailable."));return}
+      context.drawImage(image,0,0,canvas.width,canvas.height);
+      resolve(canvas.toDataURL("image/jpeg",.78));
+    };
+    image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Image could not be decoded."))};
+    image.src=url;
+  });
+}
 document.querySelector("#export-alloc").addEventListener("click",()=>downloadCSV("demo-allocation-review.csv",["style_color,location,on_hand,weekly_rate,cover_weeks,suggested_qty,reason",...allocation.map(a=>[a[0],a[1],a[2],a[3],a[4],a[5],a[6]].map(v=>`"${String(v).replaceAll('"','""')}"`).join(","))]));
 const templateFields={
   sales:"week,channel,store_id,sku,units,net_sales_usd,returns_units,discount_pct",
@@ -183,4 +379,4 @@ document.querySelector(".upload-zone").addEventListener("drop",e=>{
   const input=document.querySelector("#csv-upload");
   const transfer=new DataTransfer();transfer.items.add(file);input.files=transfer.files;input.dispatchEvent(new Event("change"));
 });
-renderTopStyles();renderMerchRows();renderRegions();renderPlanRows();renderAllocation();renderTrends();renderTasks();
+renderTopStyles();renderMerchRows();renderRegions();renderPlanRows();renderAllocation();renderTrends();renderTasks();renderAssets();renderApprovals();

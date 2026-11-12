@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2eb">
+  <title>Merch Studio — J.Crew planning concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand-lockup" href="#" aria-label="Merch Studio home">
+        <span class="brand-mark">J.CREW</span>
+        <span class="brand-sub">MERCH STUDIO <i>CONCEPT</i></span>
+      </a>
+      <div class="season-switch">
+        <span class="eyebrow">WORKSPACE</span>
+        <button class="season-button">SEASON 4 <span>2026</span><b>⌄</b></button>
+        <span class="season-state"><i></i> DEMO DATASET</span>
+      </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <span class="nav-group">YOUR DESK</span>
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span>Overview <span class="nav-count">04</span></button>
+        <button class="nav-item" data-view="merch"><span class="nav-icon">◇</span>Merchandising</button>
+        <button class="nav-item" data-view="planning"><span class="nav-icon">↗</span>Planning</button>
+        <button class="nav-item" data-view="allocation"><span class="nav-icon">⌗</span>Allocation <span class="nav-count alert">3</span></button>
+        <button class="nav-item" data-view="trends"><span class="nav-icon">✳</span>Trend intelligence</button>
+        <span class="nav-group nav-group-spaced">OPERATIONS</span>
+        <button class="nav-item" data-view="actions"><span class="nav-icon">☷</span>Action center <span class="nav-count">8</span></button>
+        <button class="nav-item" data-view="data"><span class="nav-icon">▤</span>Data room</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="source-mini">
+          <span class="eyebrow">CONNECTED SOURCES</span>
+          <div><i class="source-dot ok"></i> Demo retail ledger <span>SYNCED</span></div>
+          <div><i class="source-dot wait"></i> Vogue RSS <span>LINKED</span></div>
+          <div><i class="source-dot off"></i> Instagram API <span>SETUP</span></div>
+        </div>
+        <button class="profile-button"><span class="avatar">AM</span><span><b>Alex Morgan</b><small>Merchandising · East</small></span><span class="more">···</span></button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="crumb"><span>MERCH STUDIO</span><b>/</b><span id="crumb-view">OVERVIEW</span></div>
+        <div class="top-actions">
+          <span class="date-label">WEEK 46 <i>·</i> NOV 9–15, 2026</span>
+          <button class="icon-button" aria-label="Notifications">♧<em></em></button>
+          <button class="help-button">HELP &amp; NOTES</button>
+        </div>
+      </header>
+
+      <div class="demo-banner">
+        <span class="demo-stamp">SIMULATED</span>
+        <span>Season 4 · 2026 sample workspace data for merchandising, planning and allocation.</span>
+        <button data-view="data">Upload your data <b>↗</b></button>
+      </div>
+
+      <section class="view active-view" id="view-overview">
+        <div class="page-heading">
+          <div><span class="eyebrow">MONDAY, NOVEMBER 9, 2026 <i>·</i> EAST REGION</span><h1>Trading <em>overview</em></h1>
+            <p>Sales, inventory and decisions requiring review.</p></div>
+          <div class="heading-controls"><button class="select-button">All channels <b>⌄</b></button><button class="primary-button" data-view="actions">Review 4 actions <span>→</span></button></div>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi-card"><div class="kpi-top"><span>NET SALES</span><span class="kpi-icon">↗</span></div><strong id="kpi-sales">$8.42M</strong><div class="kpi-foot"><span class="positive">+4.8%</span> vs. plan <small>WEEK 46 TO DATE</small></div><div class="sparkline navy"></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>SELL-THROUGH</span><span class="kpi-icon">◌</span></div><strong>68.4%</strong><div class="kpi-foot"><span class="positive">+2.1 pts</span> vs. LY <small>SEASON TO DATE</small></div><div class="sparkline gold"></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>WEEKS OF SUPPLY</span><span class="kpi-icon">⌁</span></div><strong>7.2 <small class="unit">WKS</small></strong><div class="kpi-foot"><span class="negative">+0.6 wks</span> vs. target <small>AT CURRENT RATE</small></div><div class="sparkline rust"></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>OPEN DECISIONS</span><span class="kpi-icon">✳</span></div><strong>08</strong><div class="kpi-foot"><span class="neutral">3 due today</span> across your team <small>4 NEED YOUR REVIEW</small></div><div class="kpi-pips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+        </div>
+
+        <div class="content-grid overview-grid">
+          <article class="panel sales-panel">
+            <div class="panel-heading"><div><span class="eyebrow">SALES VS PLAN</span><h2>Weekly net sales</h2><p>Season-to-date net sales <span class="muted">· Demo dollars</span></p></div><button class="text-button" data-view="planning">View plan detail <b>→</b></button></div>
+            <div class="chart-legend"><span><i class="legend-line"></i>Actual</span><span><i class="legend-line dashed"></i>Plan</span><span class="chart-unit">USD · MILLIONS</span></div>
+            <div class="chart-wrap" aria-label="Sales versus plan chart">
+              <div class="y-labels"><span>$2.0</span><span>$1.5</span><span>$1.0</span><span>$0.5</span><span>$0</span></div>
+              <svg class="sales-chart" viewBox="0 0 760 220" role="img" aria-label="Weekly demo sales and plan trend">
+                <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#213b4d" stop-opacity=".16"/><stop offset="1" stop-color="#213b4d" stop-opacity="0"/></linearGradient></defs>
+                <path class="gridline" d="M0 22H760 M0 66H760 M0 110H760 M0 154H760 M0 198H760"/>
+                <path class="plan-line" d="M0 150 C70 137 80 129 126 134 S203 117 253 122 S330 93 380 104 S454 85 506 91 S585 66 633 76 S707 48 760 53"/>
+                <path class="sales-area" d="M0 163 C70 150 82 133 126 141 S203 111 253 126 S330 80 380 94 S454 88 506 72 S585 58 633 69 S707 39 760 42 L760 200 L0 200Z"/>
+                <path class="sales-line" d="M0 163 C70 150 82 133 126 141 S203 111 253 126 S330 80 380 94 S454 88 506 72 S585 58 633 69 S707 39 760 42"/>
+                <circle cx="760" cy="42" r="4.5" class="end-dot"/>
+              </svg>
+              <div class="x-labels"><span>SEP 7</span><span>SEP 21</span><span>OCT 5</span><span>OCT 19</span><span>NOV 2</span><span>NOV 9</span></div>
+            </div>
+            <div class="chart-insight"><span class="insight-mark">i</span><p><b>Outerwear: +11% vs plan.</b> Synthetic demo result. Validate against current inventory and actual weather before taking action.</p><span class="confidence">DEMO ONLY</span></div>
+          </article>
+          <article class="panel attention-panel">
+            <div class="panel-heading"><div><span class="eyebrow">OPEN ITEMS</span><h2>4 items require review</h2></div><button class="round-arrow" data-view="actions">→</button></div>
+            <div class="attention-list">
+              <div class="attention-item"><span class="priority high">NOW</span><div><b>Cashmere crewneck · Oat</b><p>3 Northeast stores below 2 weeks of cover.</p><small>ALLOCATION <i>·</i> 18 MIN AGO</small></div><button class="small-arrow" data-action="Review cover">↗</button></div>
+              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Classic trench · Stone</b><p>Demand is 9% under plan; check size curve.</p><small>PLANNING <i>·</i> 1 HR AGO</small></div><button class="small-arrow" data-action="Review size curve">↗</button></div>
+              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Fair Isle cardigan · Multi</b><p>Trend signal is rising; validate with sell-through.</p><small>MERCH <i>·</i> 3 HRS AGO</small></div><button class="small-arrow" data-action="Review trend">↗</button></div>
+              <div class="attention-item"><span class="priority low">TODAY</span><div><b>Holiday gift edit</b><p>Confirm web assortment readiness by 3 PM.</p><small>MERCH <i>·</i> DUE TODAY</small></div><button class="small-arrow" data-action="Open assortment">↗</button></div>
+            </div>
+            <button class="all-actions" data-view="actions">GO TO ACTION CENTER <b>→</b></button>
+          </article>
+        </div>
+        <div class="lower-grid">
+          <article class="panel table-panel">
+            <div class="panel-heading"><div><span class="eyebrow">ASSORTMENT SNAPSHOT · DEMO</span><h2>Top styles</h2></div><button class="text-button" data-view="merch">All styles <b>→</b></button></div>
+            <div class="table-scroll"><table><thead><tr><th>STYLE</th><th>COLOR</th><th>NET SALES</th><th>SELL-THROUGH</th><th>VS PLAN</th><th>STATUS</th></tr></thead><tbody id="top-style-rows"></tbody></table></div>
+          </article>
+          <article class="panel weather-panel">
+            <div class="panel-heading"><div><span class="eyebrow">WEATHER INPUT · DEMO</span><h2>New York outlook</h2></div><span class="weather-icon">☼</span></div>
+            <div class="weather-summary"><strong>48°</strong><span>New York, NY<small>WEEK 46 · DEMO FORECAST</small></span></div>
+            <div class="weather-bar"><span style="height:34%"></span><span style="height:50%"></span><span style="height:39%"></span><span style="height:74%"></span><span style="height:60%"></span><span style="height:87%"></span><span style="height:68%"></span></div>
+            <div class="weather-note"><i>↗</i><span>Temperature outlook is a simulated signal. Real forecast integration uses NOAA/NWS with issue time and confidence.</span></div>
+            <button class="text-button" data-view="planning">See regional outlook <b>→</b></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-merch">
+        <div class="page-heading compact"><div><span class="eyebrow">MERCHANDISING DESK <i>·</i> SEASON 4</span><h1>Assortment <em>performance</em></h1><p>Review style performance, lifecycle, margin and channel mix.</p></div><button class="primary-button" data-view="trends">Open trend review <span>→</span></button></div>
+        <div class="role-strip"><span>YOUR ROLE</span><b>MERCHANDISER</b><span>FOCUS</span><b>ASSORTMENT HEALTH · LIFECYCLE · TREND VALIDATION</b></div>
+        <div class="kpi-grid three">
+          <article class="kpi-card"><div class="kpi-top"><span>ACTIVE STYLES</span><span class="kpi-icon">◇</span></div><strong>184</strong><div class="kpi-foot">Across 12 demo classifications <small>ASSORTMENT SNAPSHOT</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>WINNERS TO WATCH</span><span class="kpi-icon">↗</span></div><strong>12</strong><div class="kpi-foot"><span class="positive">7 above plan</span><small>SEASON TO DATE</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>LIFECYCLE FLAGS</span><span class="kpi-icon">◷</span></div><strong>06</strong><div class="kpi-foot"><span class="negative">2 need a decision</span><small>WITHIN 7 DAYS</small></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel table-panel wide-panel"><div class="panel-heading"><div><span class="eyebrow">STYLE PERFORMANCE · DEMO</span><h2>Style and SKU detail</h2><p>All values are synthetic prototype data.</p></div><div class="table-tools"><input id="style-search" class="search-input" placeholder="Search styles..." aria-label="Search styles"><button class="select-button">All categories⌄</button></div></div>
+            <div class="table-scroll"><table><thead><tr><th>STYLE / SKU</th><th>CATEGORY</th><th>COLOR</th><th>NET UNITS</th><th>SELL-THROUGH</th><th>FORECAST SIGNAL</th><th>STATUS</th></tr></thead><tbody id="merch-rows"></tbody></table></div>
+          </article>
+          <article class="panel"><div class="panel-heading"><div><span class="eyebrow">CATEGORY SUMMARY · DEMO</span><h2>Knitwear</h2></div><span class="confidence">SYNTHETIC DATA</span></div><p class="editorial-copy">In this sample, knitwear sell-through and sales variance are above the other listed groups. Check size availability, margin and inbound inventory before changing buys or allocation.</p><button class="outline-button" data-view="trends">Review trend inputs</button></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-planning">
+        <div class="page-heading compact"><div><span class="eyebrow">PLANNING DESK <i>·</i> SEASON 4</span><h1>Plan vs <em>actual</em></h1><p>Review sales, inventory, margin and forecast scenarios.</p></div><button class="primary-button" id="scenario-button">Create scenario <span>＋</span></button></div>
+        <div class="role-strip"><span>YOUR ROLE</span><b>PLANNER</b><span>FOCUS</span><b>SALES · INVENTORY · MARGIN · FORECAST ACCURACY</b></div>
+        <div class="kpi-grid three">
+          <article class="kpi-card"><div class="kpi-top"><span>SEASON NET SALES PLAN</span><span class="kpi-icon">↗</span></div><strong>$42.8M</strong><div class="kpi-foot">Demo seasonal plan <small>USD · SIMULATED</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>ACTUAL VS PLAN</span><span class="kpi-icon">◌</span></div><strong>+4.8%</strong><div class="kpi-foot"><span class="positive">Ahead</span> through Week 46 <small>DEMO LEDGER</small></div></article>
+          <article class="kpi-card"><div class="kpi-top"><span>PROJECTED ENDING WOS</span><span class="kpi-icon">⌁</span></div><strong>7.2 <small class="unit">WKS</small></strong><div class="kpi-foot"><span class="negative">Target 6.6 wks</span><small>SIMULATED PROJECTION</small></div></article>
+        </div>
+        <div class="content-grid planning-content">
+          <article class="panel wide-panel"><div class="panel-heading"><div><span class="eyebrow">REGIONAL WEATHER INPUTS</span><h2>Seasonal outlook by region</h2><p>Illustrative values only. Long-range climate outlooks are probabilistic, not store-level forecasts.</p></div><span class="source-tag">NOAA/NWS · NOT CONNECTED</span></div>
+            <div class="region-grid" id="region-grid"></div>
+          </article>
+          <article class="panel"><div class="panel-heading"><div><span class="eyebrow">SCENARIO ANALYSIS</span><h2>Demand assumptions</h2></div></div>
+            <label class="field-label">SCENARIO NAME<input class="field-input" value="Cooler Northeast / base elsewhere"></label>
+            <label class="field-label">WEATHER INPUT<select class="field-input"><option>Short range + seasonal probability</option><option>Historical seasonal normal</option><option>Manual scenario assumption</option></select></label>
+            <label class="field-label">DEMAND CHANGE<input class="field-input" type="range" min="-15" max="15" value="4"><span class="range-scale">−15% <b>+4%</b> +15%</span></label>
+            <div class="scenario-note">Scenario impact is illustrative until connected to verified sales, inventory and supply data.</div><button class="primary-button full-button" id="run-scenario">Run comparison <span>→</span></button>
+          </article>
+        </div>
+        <div class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">PLAN VS ACTUAL · DEMO</span><h2>By merchandise group</h2></div><button class="text-button" data-view="data">See metric definitions <b>→</b></button></div>
+          <div class="table-scroll"><table><thead><tr><th>GROUP</th><th>SALES PLAN</th><th>ACTUAL</th><th>VARIANCE</th><th>INVENTORY HEALTH</th><th>PLANNER NOTE</th></tr></thead><tbody id="plan-rows"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-allocation">
+        <div class="page-heading compact"><div><span class="eyebrow">ALLOCATION DESK <i>·</i> SEASON 4</span><h1>Store <em>replenishment</em></h1><p>Review suggested quantities before approval or export.</p></div><button class="primary-button" id="export-alloc">Export review CSV <span>↓</span></button></div>
+        <div class="role-strip"><span>YOUR ROLE</span><b>ALLOCATOR</b><span>FOCUS</span><b>STORE COVER · SIZE CURVE · REPLENISHMENT · TRANSFERS</b></div>
+        <div class="allocation-summary"><div><span class="eyebrow">PROPOSALS READY</span><strong>03</strong><small>Require human review</small></div><div><span class="eyebrow">LOW COVER FLAGS</span><strong>07</strong><small>Across 5 demo locations</small></div><div><span class="eyebrow">TRANSFER OPPORTUNITY</span><strong>02</strong><small>Inventory imbalance detected</small></div><div><span class="eyebrow">DATA HEALTH</span><strong class="health-good">96%</strong><small>Demo record completeness</small></div></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">REPLENISHMENT REVIEW QUEUE</span><h2>Suggested actions with their receipts.</h2><p>Suggestions are simulations; nothing is sent to stores or order systems.</p></div><button class="select-button" id="alloc-filter">All priorities⌄</button></div>
+          <div class="table-scroll"><table><thead><tr><th>STYLE / COLOR</th><th>LOCATION</th><th>ON HAND</th><th>WEEKLY RATE</th><th>COVER</th><th>SUGGESTED QTY</th><th>WHY THIS, WHY NOW</th><th>REVIEW</th></tr></thead><tbody id="allocation-rows"></tbody></table></div>
+        </article>
+        <article class="panel allocation-method"><span class="eyebrow">HOW TO READ THE SUGGESTION</span><p><b>Suggested quantity</b> = target cover × observed weekly unit rate − available inventory − confirmed in-transit units. This demo uses synthetic inputs. Production calculations must include size-level demand, store capacity, pack rules, lead time and approved inventory policy.</p></article>
+      </section>
+
+      <section class="view" id="view-trends">
+        <div class="page-heading compact"><div><span class="eyebrow">TREND INTELLIGENCE <i>·</i> SOURCE STATUS</span><h1>Trend <em>signal review</em></h1><p>30 synthetic reference cards for layout testing. They are not sourced images or verified trends.</p></div><button class="select-button" id="trend-refresh">Check source status ↻</button></div>
+        <div class="source-status-grid">
+          <article class="source-card"><div class="source-card-head"><span class="source-logo vogue-logo">V</span><span class="connection connected">RSS LINK AVAILABLE</span></div><h3>Vogue editorial feed</h3><p>RSS exposes discoverable article metadata and links. Article imagery and full text are not copied into this demo.</p><a href="https://www.vogue.com/feed/rss" target="_blank" rel="noreferrer">Open Vogue RSS <b>↗</b></a></article>
+          <article class="source-card"><div class="source-card-head"><span class="source-logo ig-logo">◎</span><span class="connection setup">AUTHORIZATION REQUIRED</span></div><h3>Instagram Platform API</h3><p>Connect an eligible Business/Creator account, app review and approved permissions. No Instagram content is fetched in this demo.</p><a href="https://developers.facebook.com/documentation/instagram-platform/" target="_blank" rel="noreferrer">Review Meta API docs <b>↗</b></a></article>
+          <article class="source-card"><div class="source-card-head"><span class="source-logo weather-logo">☼</span><span class="connection connected">PUBLIC API DOCUMENTED</span></div><h3>NOAA / National Weather Service</h3><p>Forecasts and seasonal outlooks should carry location, issue time and uncertainty; seasonal outlooks are probabilistic.</p><a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noreferrer">Review weather API <b>↗</b></a></article>
+        </div>
+        <div class="trend-toolbar"><div><span class="eyebrow">30 SYNTHETIC DEMO CARDS</span><h2>Reference categories</h2></div><div class="filter-pills"><button class="active">ALL 30</button><button>KNITWEAR</button><button>COLOR</button><button>PRINT</button><button>SHAPE</button></div></div>
+        <div class="trend-grid" id="trend-grid"></div>
+        <div class="trend-disclaimer"><span>ⓘ</span><p>Visuals and trend labels here are synthetic UX examples. To create real signals, connect an authorized feed, preserve source URLs and publication dates, obtain rights for any stored/displayed media, then require Merchandiser validation and historical backtesting before forecasts can use a trend feature.</p></div>
+      </section>
+
+      <section class="view" id="view-actions">
+        <div class="page-heading compact"><div><span class="eyebrow">ACTION CENTER <i>·</i> WEEK 46</span><h1>Action <em>queue</em></h1><p>Tasks, approvals, owners and due dates.</p></div><button class="primary-button" id="new-action">＋ New action</button></div>
+        <div class="action-filters"><button class="active">MY QUEUE <b>4</b></button><button>TEAM <b>8</b></button><button>APPROVALS <b>2</b></button><button>COMPLETED</button></div>
+        <article class="panel action-panel"><div class="action-list" id="action-list"></div></article>
+      </section>
+
+      <section class="view" id="view-data">
+        <div class="page-heading compact"><div><span class="eyebrow">DATA ROOM <i>·</i> SOURCES &amp; DEFINITIONS</span><h1>Source data <em>&amp; definitions</em></h1><p>Upload a CSV for local preview or review the expected data fields.</p></div></div>
+        <div class="data-room-grid">
+          <article class="panel upload-panel"><div class="upload-icon">↑</div><span class="eyebrow">CSV UPLOAD</span><h2>Upload data file</h2><p>Select a CSV for styles, sales, inventory, plans or stores. This demo parses the file locally in your browser and does not transmit it.</p>
+            <label class="upload-zone" for="csv-upload"><b>Drop a CSV here or <u>browse files</u></b><small>CSV · up to 10 MB recommended</small></label><input id="csv-upload" type="file" accept=".csv,text/csv" hidden>
+            <div class="upload-controls"><select id="upload-type" class="field-input"><option value="sales">Sales / transactions</option><option value="inventory">Inventory snapshot</option><option value="styles">Style master</option><option value="stores">Store master</option><option value="plan">Plan / forecast</option></select><button class="outline-button" id="download-template">Download CSV template</button></div>
+            <div id="upload-result" class="upload-result">No file uploaded. Demo values remain active.</div>
+          </article>
+          <article class="panel"><span class="eyebrow">SOURCE REGISTER</span><h2>Connected, simulated and pending.</h2>
+            <div class="source-register"><div><i class="source-dot ok"></i><span><b>Season 4 demo ledger</b><small>DEMO · synthetic, generated for this prototype</small></span><em>ACTIVE</em></div><div><i class="source-dot wait"></i><span><b>Vogue RSS</b><small>Discover article metadata only; no article/image ingestion</small></span><em>LINK READY</em></div><div><i class="source-dot off"></i><span><b>Instagram Platform API</b><small>Needs Meta app, eligible account, review and permission</small></span><em>NOT CONNECTED</em></div><div><i class="source-dot wait"></i><span><b>NOAA / NWS</b><small>Documented public source; demo uses illustrative values</small></span><em>NOT CONNECTED</em></div><div><i class="source-dot off"></i><span><b>POS / OMS / WMS / ERP</b><small>Internal access and metric mapping required</small></span><em>NEEDS IT</em></div></div>
+          </article>
+        </div>
+        <article class="panel data-contract"><div class="panel-heading"><div><span class="eyebrow">CSV DATA CONTRACT</span><h2>Suggested first upload fields</h2><p>Keep source IDs, time zones, currency, and metric definitions with every production data feed.</p></div><button class="text-button" id="download-all-templates">Download templates <b>↓</b></button></div>
+          <div class="contract-grid"><div><b>Sales</b><code>week, channel, store_id, sku, units, net_sales_usd, returns_units, discount_pct</code></div><div><b>Inventory</b><code>as_of_date, location_id, sku, on_hand_units, in_transit_units, reserved_units</code></div><div><b>Style master</b><code>sku, style_name, category, color, size, launch_date, ticket_price_usd</code></div><div><b>Store master</b><code>store_id, region, city, state, time_zone, open_date, close_date, capacity</code></div></div>
+        </article>
+        <article class="panel source-method"><span class="eyebrow">EVIDENCE LABELS</span><div><span class="tag observed">OBSERVED</span><span>Source-system record with timestamp and lineage.</span></div><div><span class="tag derived">DERIVED</span><span>Reproducible calculation from observed data and a declared formula.</span></div><div><span class="tag proxy">PROXY</span><span>External signal; never presented as J.Crew actuals.</span></div><div><span class="tag demo">DEMO</span><span>Synthetic prototype values; excluded from production decisions.</span></div></article>
+      </section>
+
+      <footer class="app-footer"><span>MERCH STUDIO <i>·</i> PRODUCT CONCEPT</span><span>DEMO DATA ONLY · NO SYSTEM WRITE-BACK</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="decision-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">REVIEW DECISION</span><h2 id="dialog-title">Review action</h2><p id="dialog-copy"></p><label class="field-label">DECISION NOTE<textarea class="field-input" rows="3" placeholder="Add context for the team..."></textarea></label><div class="dialog-actions"><button class="outline-button" value="dismiss">Keep in queue</button><button class="primary-button" id="approve-action" value="confirm">Mark reviewed <span>→</span></button></div></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

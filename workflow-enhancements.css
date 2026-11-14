@@ -1,0 +1,32 @@
+.asset-source-field{grid-column:span 2}
+.asset-source-field .field-input{margin-top:5px}
+.store-plan-controls,.query-controls{display:grid;grid-template-columns:minmax(170px,1fr) minmax(220px,1.5fr) auto;gap:14px;align-items:end}
+.store-plan-controls label,.query-controls label{display:grid;gap:7px;color:#7e817c;font-size:8px;letter-spacing:.8px}
+.store-plan-controls input[type="range"]{width:100%;accent-color:#395668}
+.store-plan-controls label span{font-size:8px;letter-spacing:0;color:#6d766f}
+.query-controls{grid-template-columns:repeat(3,minmax(120px,1fr)) auto}
+.query-result{margin-top:15px;padding:12px;background:#f7f5ef;color:#43535a;font-size:10px;line-height:1.55}
+.query-result span{display:block;color:#888b84;font-size:8px;margin-top:3px}
+.trend-card footer{gap:8px}
+.trend-card .tiny-button{margin-top:10px}
+.trend-id{display:flex;justify-content:space-between;color:#9a8b71;font-size:7px;letter-spacing:.7px}
+.trend-card-body{min-height:145px;display:flex;flex-direction:column}
+.trend-card footer{margin-top:auto}
+.source-tag{white-space:nowrap}
+.asset-workflow .asset-source-field{grid-column:span 2}
+.metric-table td:nth-child(2){min-width:260px}
+.store-plan-controls .outline-button{min-height:35px}
+
+@media(max-width:1100px){
+  .asset-workflow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .asset-workflow .field-label:first-child,.asset-workflow .asset-source-field{grid-column:span 2}
+  .store-plan-controls,.query-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:540px){
+  .asset-workflow{grid-template-columns:1fr}
+  .asset-workflow .field-label:first-child,.asset-workflow .asset-source-field{grid-column:auto}
+  .store-plan-controls,.query-controls{grid-template-columns:1fr}
+  .store-plan-controls .outline-button,.query-controls .primary-button{width:100%}
+  .source-tag{white-space:normal}
+}

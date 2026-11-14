@@ -1,16 +1,16 @@
 const styles = [
-  ["Cashmere Crewneck","Knitwear","Oat","KN-1042",1840,72,11.8,"Winner"],
-  ["Classic Trench","Outerwear","Stone","OT-2108",1315,46,-8.6,"Watch"],
-  ["Fair Isle Cardigan","Knitwear","Multi","KN-1184",990,64,6.2,"Rising"],
-  ["Everyday Oxford","Shirting","Blue Stripe","SH-3317",1660,69,3.8,"On plan"],
-  ["Wool Topcoat","Outerwear","Navy","OT-2021",780,41,-2.4,"Watch"],
-  ["Heritage Plaid Skirt","Bottoms","Tartan","BT-4106",625,57,1.6,"On plan"],
-  ["Quilted Barn Jacket","Outerwear","Olive","OT-2290",1210,77,14.2,"Winner"],
-  ["Ribbed Turtleneck","Knitwear","Burgundy","KN-1055",1120,66,5.1,"Rising"],
-  ["Straight Jean","Denim","Rinse","DN-5062",1430,61,2.7,"On plan"],
-  ["Ludlow Blazer","Tailoring","Charcoal","TL-6101",840,52,-4.1,"Watch"],
-  ["Printed Silk Scarf","Accessories","Floral","AC-8032",560,74,8.4,"Winner"],
-  ["Corduroy Trouser","Bottoms","Camel","BT-4171",730,59,1.2,"On plan"]
+  ["Cashmere Crewneck","Knitwear","Oat","KN-1042",1840,72,11.8,"Winner",230000],
+  ["Classic Trench","Outerwear","Stone","OT-2108",1315,46,-8.6,"Watch",332000],
+  ["Fair Isle Cardigan","Knitwear","Multi","KN-1184",990,64,6.2,"Rising",214000],
+  ["Everyday Oxford","Shirting","Blue Stripe","SH-3317",1660,69,3.8,"On plan",166000],
+  ["Wool Topcoat","Outerwear","Navy","OT-2021",780,41,-2.4,"Watch",312000],
+  ["Heritage Plaid Skirt","Bottoms","Tartan","BT-4106",625,57,1.6,"On plan",93750],
+  ["Quilted Barn Jacket","Outerwear","Olive","OT-2290",1210,77,14.2,"Winner",217800],
+  ["Ribbed Turtleneck","Knitwear","Burgundy","KN-1055",1120,66,5.1,"Rising",123200],
+  ["Straight Jean","Denim","Rinse","DN-5062",1430,61,2.7,"On plan",128700],
+  ["Ludlow Blazer","Tailoring","Charcoal","TL-6101",840,52,-4.1,"Watch",336000],
+  ["Printed Silk Scarf","Accessories","Floral","AC-8032",560,74,8.4,"Winner",44800],
+  ["Corduroy Trouser","Bottoms","Camel","BT-4171",730,59,1.2,"On plan",109500]
 ];
 const regions = [
   ["Northeast","41°–53°","Cooler than normal","Outerwear + knit layers","DEMO · HIGH VARIANCE"],
@@ -37,37 +37,61 @@ const tasks = [
   ["13","NOV","MERCH","Review plaid skirt lifecycle","Compare full-price sell-through, weeks of supply and markdown calendar before decision.","Morgan Lee","UPCOMING"],
   ["14","NOV","PLANNING","Prepare weekly variance notes","Separate demand, availability, pricing and returns effects in the MPA weekly review.","Alex Morgan","UPCOMING"]
 ];
+const storePlans=[
+  {store:"UES 014",city:"New York, NY",region:"Northeast",tier:"A",plan:480000,actual:502000,cover:5.8,exception:"Above plan"},
+  {store:"Flatiron 008",city:"New York, NY",region:"Northeast",tier:"A",plan:420000,actual:398000,cover:7.1,exception:"Review demand"},
+  {store:"Newbury 027",city:"Boston, MA",region:"Northeast",tier:"A",plan:390000,actual:412000,cover:4.9,exception:"Low cover"},
+  {store:"Chestnut Hill 019",city:"Newton, MA",region:"Northeast",tier:"B",plan:310000,actual:294000,cover:6.7,exception:"On plan"},
+  {store:"Ponce 052",city:"Atlanta, GA",region:"Southeast",tier:"B",plan:360000,actual:352000,cover:7.8,exception:"On plan"},
+  {store:"Buckhead 049",city:"Atlanta, GA",region:"Southeast",tier:"A",plan:430000,actual:446000,cover:6.2,exception:"Above plan"},
+  {store:"North 041",city:"Chicago, IL",region:"Midwest",tier:"A",plan:470000,actual:486000,cover:5.2,exception:"Low cover"},
+  {store:"Oakbrook 035",city:"Oak Brook, IL",region:"Midwest",tier:"B",plan:380000,actual:362000,cover:8.1,exception:"Review demand"},
+  {store:"Downtown 063",city:"Seattle, WA",region:"West",tier:"A",plan:410000,actual:421000,cover:6.4,exception:"On plan"},
+  {store:"University 058",city:"Seattle, WA",region:"West",tier:"B",plan:350000,actual:343000,cover:7.3,exception:"On plan"},
+  {store:"Marina 071",city:"San Francisco, CA",region:"West",tier:"A",plan:420000,actual:438000,cover:5.7,exception:"Above plan"},
+  {store:"Fashion Island 076",city:"Newport Beach, CA",region:"West",tier:"B",plan:370000,actual:366000,cover:6.9,exception:"On plan"}
+];
+const metricDefinitions=[
+  ["Net sales","Sales less discounts, returns and cancellations per approved finance mapping.","POS / Ecommerce","Merch Analytics","v1.0","DEMO — CONFIRM"],
+  ["Units sold","Net fulfilled units less returned units per approved sales mapping.","POS / Ecommerce","Merch Analytics","v1.0","DEMO — CONFIRM"],
+  ["Sell-through","Units sold ÷ (units sold + ending on-hand); return and stockout rules pending.","POS + Inventory","Planning","v1.0","DRAFT"],
+  ["Weeks of supply","Available units ÷ average weekly unit sales; lookback window pending.","Inventory + POS","Planning","v1.0","DRAFT"],
+  ["OTB remaining","Approved OTB budget less included commitments per finance policy.","o9 / ERP","Planning","v1.0","DRAFT"],
+  ["Store plan variance","Actual net sales less store plan, divided by store plan.","POS + o9","Store Planning","v1.0","DEMO — CONFIRM"],
+  ["Gross margin","Net sales less cost of goods sold per finance mapping.","Finance / ERP","Planning","—","NOT MAPPED"],
+  ["Transfer net benefit","Incremental contribution less transfer cost and donor impact.","POS + Inventory","Allocation","—","NOT MAPPED"]
+];
 const trendIdeas = [
-  ["Soft structure","SHAPE","Relaxed tailoring","Clean lines, softer shoulder and polished ease.","#e6dfd0","#859191","linear-gradient(90deg,transparent 46%,#ddd3bd 47% 54%,transparent 55%)","18px 18px"],
-  ["Heritage check","PRINT","Plaid","Classic checked pattern as an accent, not an assumption.","#ece3d4","#a7664b","repeating-linear-gradient(45deg,transparent 0 7px,#7b5142 8px 9px,transparent 10px 16px)","17px 17px"],
-  ["Deep lake blue","COLOR","Blue","A saturated blue reference for color review.","#dae2e0","#315b6d","radial-gradient(circle,#d8c495 1.5px,transparent 2px)","15px 15px"],
-  ["Textured layers","KNITWEAR","Layering","Layered textures to review against regional weather.","#e7ded2","#77867c","repeating-linear-gradient(0deg,transparent 0 6px,#d2c6b6 7px 8px)","15px 15px"],
-  ["Modern Fair Isle","KNITWEAR","Pattern knit","Traditional motif as a testable product hypothesis.","#e8dfd1","#8d4941","repeating-linear-gradient(135deg,#d9bc8d 0 2px,transparent 2px 7px)","13px 13px"],
-  ["Warm neutrals","COLOR","Camel / oat","A neutral palette reference; validate with sales and customer data.","#e9dfd0","#aa8662","radial-gradient(circle,#f0e8d9 2px,transparent 3px)","17px 17px"],
-  ["Tonal dressing","SHAPE","Monochrome","Head-to-toe tonal styling as a styling signal.","#e7e5dc","#929585","linear-gradient(0deg,transparent 48%,#c9b894 49% 51%,transparent 52%)","16px 16px"],
-  ["Botanical miniature","PRINT","Floral","Small-scale botanical print idea for validation.","#e3e5d7","#60755e","radial-gradient(ellipse,#a5604f 2px,transparent 3px)","14px 14px"],
-  ["Modern prep","SHAPE","Polished casual","A styling lens for assortment review, not a demand claim.","#e6dfd2","#536c7d","repeating-linear-gradient(90deg,transparent 0 8px,#eee5d6 9px 10px)","17px 17px"],
-  ["Burgundy accent","COLOR","Wine","Accent-color reference; check with customer and inventory signals.","#e7d9d4","#784548","radial-gradient(circle,#d7be9a 1.5px,transparent 2px)","18px 18px"],
-  ["Cable texture","KNITWEAR","Cable knit","Tactile knit texture as an assortment taxonomy cue.","#e7e0d3","#b59d7d","repeating-linear-gradient(75deg,transparent 0 6px,#e6d9c2 7px 9px,transparent 10px 14px)","14px 14px"],
-  ["Pencil stripe","PRINT","Stripe","Directional stripe test; compare style and channel performance.","#e0e5e3","#456271","repeating-linear-gradient(90deg,transparent 0 7px,#d4c8b2 8px 9px)","16px 16px"],
-  ["Utility field coat","SHAPE","Utility","Functional outerwear cue to check against climate and fit data.","#e4e1d4","#67765f","linear-gradient(90deg,transparent 15%,#baaa8c 16% 18%,transparent 19% 81%,#baaa8c 82% 84%,transparent 85%)","16px 16px"],
-  ["Soft suiting","SHAPE","Tailoring","Ease-led tailoring cue for a considered workwear edit.","#e6dfd6","#65727b","repeating-linear-gradient(0deg,transparent 0 11px,#d2c6b5 12px 13px)","16px 16px"],
-  ["Oxblood note","COLOR","Burgundy","Dark red color cue; validate breadth and placement.","#e5ded4","#733f45","radial-gradient(circle,#c6a56d 2px,transparent 3px)","14px 14px"],
-  ["Plaid layering","PRINT","Tartan","Layering and plaid idea, shown as a synthetic visual.","#e6dfd6","#754e46","repeating-linear-gradient(0deg,transparent 0 7px,#bd9970 8px 9px,transparent 10px 15px)","15px 15px"],
-  ["Funnel-neck layer","SHAPE","High neck","Neckline silhouette idea for a design review queue.","#e7e2d8","#8e8c80","linear-gradient(90deg,transparent 40%,#d1c6b5 41% 59%,transparent 60%)","17px 17px"],
-  ["Winter white","COLOR","Ivory","Light neutral reference; consider care, climate and channel mix.","#e9e7df","#c2b9a7","radial-gradient(circle,#fffdf7 2px,transparent 3px)","15px 15px"],
-  ["Velvet touch","TEXTURE","Velvet","Surface texture idea; validate occasion relevance and margin.","#e1dbd8","#574451","radial-gradient(circle,#927b86 1.5px,transparent 2px)","14px 14px"],
-  ["Classic penny loafer","ACCESSORY","Footwear","Accessory styling cue; the card itself is illustrative.","#e7e0d3","#795e48","linear-gradient(0deg,transparent 60%,#c9b18f 61% 64%,transparent 65%)","16px 16px"],
-  ["Statement scarf","ACCESSORY","Silk print","A styling accent idea to review alongside attachment rate.","#e5ded4","#a65d50","repeating-linear-gradient(45deg,transparent 0 6px,#d5bd98 7px 8px)","14px 14px"],
-  ["Barn jacket refresh","SHAPE","Workwear","Outerwear silhouette cue; compare by region and price point.","#e1e3d6","#657052","linear-gradient(90deg,transparent 25%,#bdac8f 26% 28%,transparent 29% 71%,#bdac8f 72% 74%,transparent 75%)","18px 18px"],
-  ["Cashmere layering","KNITWEAR","Fine gauge","Fine-gauge layer idea; never use as a substitute for sell-through.","#e8e1d5","#a88d6f","repeating-linear-gradient(0deg,transparent 0 4px,#d9cebb 5px 6px)","16px 16px"],
-  ["Painterly floral","PRINT","Floral","Expressive floral pattern concept, generated for the demo.","#e2e4d7","#72836a","radial-gradient(ellipse at 30% 40%,#a65f55 3px,transparent 4px)","15px 15px"],
-  ["Wide-leg ease","SHAPE","Trouser","Proportion cue to review against size-level sell-through.","#e6dfd3","#9a8265","linear-gradient(90deg,transparent 28%,#d0bea1 29% 34%,transparent 35% 65%,#d0bea1 66% 71%,transparent 72%)","17px 17px"],
-  ["Navy anchor","COLOR","Navy","Core color reference; actual replenishment depends on verified stock.","#e4e1d8","#344b5a","radial-gradient(circle,#b8ab92 1px,transparent 2px)","14px 14px"],
-  ["Layered collar","SHAPE","Collar detail","Layered collar styling cue for an editorial review.","#e7e1d5","#778a8b","linear-gradient(0deg,transparent 25%,#d3c4a8 26% 29%,transparent 30%)","16px 16px"],
-  ["Corduroy texture","TEXTURE","Ribbed wale","Texture cue that may be tested by region and climate.","#e6dfd2","#8c6b52","repeating-linear-gradient(90deg,#c7b096 0 2px,transparent 3px 7px)","13px 13px"],
-  ["Heritage outerwear","SHAPE","Classic coat","A timeless outerwear lens; test against lead times and demand.","#e5dfd4","#526570","linear-gradient(90deg,transparent 48%,#b5a27f 49% 52%,transparent 53%)","17px 17px"],
-  ["Holiday jewel tone","COLOR","Jewel palette","Seasonal color story to compare with historical gift sales.","#e4ddd5","#8a4c55","radial-gradient(circle,#c6a56d 1px,transparent 2px)","12px 12px"]
+  ["Soft structure","SHAPE","Relaxed tailoring","Clean lines, softer shoulder and polished ease."],
+  ["Heritage check","PRINT","Plaid","Classic checked pattern as an accent, not an assumption."],
+  ["Deep lake blue","COLOR","Blue","A saturated blue reference for color review."],
+  ["Textured layers","KNITWEAR","Layering","Layered textures to review against regional weather."],
+  ["Modern Fair Isle","KNITWEAR","Pattern knit","Traditional motif as a testable product hypothesis."],
+  ["Warm neutrals","COLOR","Camel / oat","A neutral palette reference; validate with sales and customer data."],
+  ["Tonal dressing","SHAPE","Monochrome","Head-to-toe tonal styling as a styling signal."],
+  ["Botanical miniature","PRINT","Floral","Small-scale botanical print idea for validation."],
+  ["Modern prep","SHAPE","Polished casual","A styling lens for assortment review, not a demand claim."],
+  ["Burgundy accent","COLOR","Wine","Accent-color reference; check with customer and inventory signals."],
+  ["Cable texture","KNITWEAR","Cable knit","Tactile knit texture as an assortment taxonomy cue."],
+  ["Pencil stripe","PRINT","Stripe","Directional stripe test; compare style and channel performance."],
+  ["Utility field coat","SHAPE","Utility","Functional outerwear cue to check against climate and fit data."],
+  ["Soft suiting","SHAPE","Tailoring","Ease-led tailoring cue for a workwear review."],
+  ["Oxblood note","COLOR","Burgundy","Dark red color cue; validate breadth and placement."],
+  ["Plaid layering","PRINT","Tartan","Layering and plaid idea to verify against current sales."],
+  ["Funnel-neck layer","SHAPE","High neck","Neckline silhouette idea for a design review queue."],
+  ["Winter white","COLOR","Ivory","Light neutral reference; consider care, climate and channel mix."],
+  ["Velvet touch","TEXTURE","Velvet","Surface texture idea; validate occasion relevance and margin."],
+  ["Classic penny loafer","ACCESSORY","Footwear","Accessory styling cue; verify against attachment rate."],
+  ["Statement scarf","ACCESSORY","Silk print","A styling accent idea to review alongside attachment rate."],
+  ["Barn jacket refresh","SHAPE","Workwear","Outerwear silhouette cue; compare by region and price point."],
+  ["Cashmere layering","KNITWEAR","Fine gauge","Fine-gauge layer idea; validate against sell-through."],
+  ["Painterly floral","PRINT","Floral","Expressive floral pattern hypothesis for review."],
+  ["Wide-leg ease","SHAPE","Trouser","Proportion cue to review against size-level sell-through."],
+  ["Navy anchor","COLOR","Navy","Core color reference; validate against stock and demand."],
+  ["Layered collar","SHAPE","Collar detail","Layered collar styling cue for an editorial review."],
+  ["Corduroy texture","TEXTURE","Ribbed wale","Texture cue to test by region and climate."],
+  ["Heritage outerwear","SHAPE","Classic coat","Classic outerwear reference; test against lead times and demand."],
+  ["Holiday jewel tone","COLOR","Jewel palette","Seasonal color idea to compare with historical gift sales."]
 ];
 const ASSET_STORAGE_KEY="merchStudioSkuAssets";
 const assetBySku=loadAssets();
@@ -76,14 +100,30 @@ let assetCheckPassed=false;
 const transferRequests=[];
 let nextTransferId=1;
 let pendingTransferDecision=null;
+let activeTaskFilter="MY QUEUE";
+const roleProfiles={
+  Merchandiser:{name:"Alex Morgan",team:"Merchandising · East"},
+  Planner:{name:"Sam Rivera",team:"Planning · US"},
+  "Store Planner":{name:"Taylor Brooks",team:"Store Planning · US"},
+  Allocator:{name:"Jordan Kim",team:"Allocation · East"},
+  "Merch Analytics":{name:"Casey Park",team:"MP&A Analytics · US"}
+};
 
 const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const statusClass = status => status.toLowerCase().includes("watch") ? "watch" : status.toLowerCase().includes("risk") ? "risk" : "";
 function renderTopStyles(){
-  document.querySelector("#top-style-rows").innerHTML=styles.slice(0,4).map(s=>`<tr><td><b>${s[0]}</b></td><td>${s[2]}</td><td>$${(s[4]*s[6]*.42).toLocaleString("en-US",{maximumFractionDigits:0})}</td><td>${s[5]}%</td><td class="${s[6]>=0?"positive-text":"negative-text"}">${s[6]>0?"+":""}${s[6]}%</td><td><span class="status-pill ${statusClass(s[7])}">${s[7].toUpperCase()}</span></td></tr>`).join("");
+  document.querySelector("#top-style-rows").innerHTML=styles.slice(0,4).map(s=>`<tr><td><b>${s[0]}</b></td><td>${s[2]}</td><td>$${s[8].toLocaleString("en-US")}</td><td>${s[5]}%</td><td class="${s[6]>=0?"positive-text":"negative-text"}">${s[6]>0?"+":""}${s[6]}%</td><td><span class="status-pill ${statusClass(s[7])}">${s[7].toUpperCase()}</span></td></tr>`).join("");
+}
+function initializeCategoryFilters(){
+  const categories=[...new Set(styles.map(style=>style[1]))].sort();
+  for(const id of ["category-filter","query-category"]){
+    const select=document.querySelector(`#${id}`);
+    select.innerHTML='<option value="">All categories</option>'+categories.map(category=>`<option value="${escapeHTML(category)}">${escapeHTML(category)}</option>`).join("");
+  }
 }
 function renderMerchRows(filter=""){
-  document.querySelector("#merch-rows").innerHTML=styles.filter(s=>s.join(" ").toLowerCase().includes(filter.toLowerCase())).map(s=>`<tr><td><b>${s[0]}</b><small style="display:block;color:#a4a198;font-size:7px;margin-top:4px">${s[3]}</small></td><td>${s[1]}</td><td>${s[2]}</td><td>${s[4].toLocaleString()}</td><td>${s[5]}%</td><td class="${s[6]>=0?"positive-text":"negative-text"}">${s[6]>0?"+":""}${s[6]}% vs plan</td><td><span class="status-pill ${statusClass(s[7])}">${s[7].toUpperCase()}</span></td></tr>`).join("");
+  const category=document.querySelector("#category-filter")?.value||"";
+  document.querySelector("#merch-rows").innerHTML=styles.filter(s=>s.join(" ").toLowerCase().includes(filter.toLowerCase())&&(!category||s[1]===category)).map(s=>`<tr><td><b>${s[0]}</b><small style="display:block;color:#a4a198;font-size:7px;margin-top:4px">${s[3]}</small></td><td>${s[1]}</td><td>${s[2]}</td><td>${s[4].toLocaleString()}</td><td>${s[5]}%</td><td class="${s[6]>=0?"positive-text":"negative-text"}">${s[6]>0?"+":""}${s[6]}% vs plan</td><td><span class="status-pill ${statusClass(s[7])}">${s[7].toUpperCase()}</span></td></tr>`).join("");
 }
 function renderRegions(){
   document.querySelector("#region-grid").innerHTML=regions.map((r,i)=>`<article class="region-card"><header><b>${r[0]}</b><span>${["◒","☼","❄","◌","❄","☁"][i]}</span></header><div class="region-temp">${r[1]}</div><p>${r[2]}<br><b>${r[3]}</b></p><footer>${r[4]}</footer></article>`).join("");
@@ -97,11 +137,17 @@ function renderPlanRows(){
   document.querySelector("#plan-rows").innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td class="${r[3].startsWith("+")?"positive-text":"negative-text"}">${r[3]}</td><td><span class="status-pill ${r[4].includes("Tight")?"watch":""}">${r[4]}</span></td><td>${r[5]}</td></tr>`).join("");
 }
 function renderAllocation(){
-  document.querySelector("#allocation-rows").innerHTML=allocation.map(a=>{
+  const filter=document.querySelector("#alloc-filter")?.value||"all";
+  const rows=allocation.filter(a=>{
     const need=Math.max(0,Math.ceil(a.targetCover*a.weekly-a.onHand-a.inbound));
     const proposed=Math.min(need,a.donorAvailable,a.quota);
+    return filter==="actionable"?proposed>0:filter==="no-need"?proposed===0:true;
+  });
+  document.querySelector("#allocation-rows").innerHTML=rows.map(a=>{
+    const proposed=allocationProposal(a);
     const productImage=assetBySku[a.sku];
-    return `<tr><td><b>${escapeHTML(a.style)}</b><small class="sku-code">${a.sku}</small></td><td>${productImage?`<img class="sku-thumb" src="${productImage.data}" alt="${escapeHTML(a.style)}">`:'<span class="image-pending">NO IMAGE</span>'}</td><td>${escapeHTML(a.receive)}</td><td>${escapeHTML(a.donor)}<small class="sku-code">${a.donorAvailable} available</small></td><td>${a.onHand}</td><td>${a.weekly}</td><td>${a.inbound}</td><td class="${proposed?"positive-text":"muted-cell"}">${proposed}</td><td>${a.quota}</td><td>${escapeHTML(a.reason)}</td><td>${proposed?`<input class="transfer-check" type="checkbox" data-transfer-sku="${a.sku}" aria-label="Select ${escapeHTML(a.style)} transfer">`:'<span class="image-pending">NO NEED</span>'}</td></tr>`;
+    const primaryImage=productImage?.type==="Primary";
+    return `<tr><td><b>${escapeHTML(a.style)}</b><small class="sku-code">${a.sku}</small></td><td>${primaryImage?`<img class="sku-thumb" src="${productImage.data}" alt="${escapeHTML(a.style)}">`:'<span class="image-pending">NO AUTHORIZED IMAGE</span>'}</td><td>${escapeHTML(a.receive)}</td><td>${escapeHTML(a.donor)}<small class="sku-code">${a.donorAvailable} available</small></td><td>${a.onHand}</td><td>${a.weekly}</td><td>${a.inbound}</td><td class="${proposed?"positive-text":"muted-cell"}">${proposed}</td><td>${a.quota}</td><td>${escapeHTML(a.reason)}</td><td>${proposed?`<input class="transfer-check" type="checkbox" data-transfer-sku="${a.sku}" aria-label="Select ${escapeHTML(a.style)} transfer">`:'<span class="image-pending">NO NEED</span>'}</td></tr>`;
   }).join("");
   updateSelectedTransfers();
 }
@@ -116,7 +162,7 @@ function renderAssets(){
   }
   document.querySelector("#asset-rows").innerHTML=styles.map(s=>{
     const asset=assetBySku[s[3]];
-    return `<tr><td><b>${s[3]}</b></td><td>${escapeHTML(s[0])} · ${escapeHTML(s[2])}</td><td>${asset?`<img class="sku-thumb" src="${asset.data}" alt="${escapeHTML(s[0])}">`:'<span class="image-pending">NO ASSET</span>'}</td><td><span class="status-pill ${asset?"":"watch"}">${asset?escapeHTML(asset.type.toUpperCase()):"NEEDS IMAGE"}</span></td><td>${asset?escapeHTML(asset.owner):"MERCH"}</td></tr>`;
+    return `<tr><td><b>${s[3]}</b></td><td>${escapeHTML(s[0])} · ${escapeHTML(s[2])}</td><td>${asset?.type==="Primary"?`<img class="sku-thumb" src="${asset.data}" alt="${escapeHTML(s[0])}">`:'<span class="image-pending">NO AUTHORIZED PRIMARY IMAGE</span>'}</td><td><span class="status-pill ${asset?"":"watch"}">${asset?escapeHTML(asset.type.toUpperCase()):"NEEDS IMAGE"}</span></td><td>${asset?escapeHTML(asset.owner):"MERCH"}</td></tr>`;
   }).join("");
   document.querySelector("#allocation-rows")&&renderAllocation();
 }
@@ -160,24 +206,96 @@ function submitSelectedTransfers(){
   showToast("Transfer request submitted to Merch approval queue.");
 }
 function renderTrends(){
-  document.querySelector("#trend-grid").innerHTML=trendIdeas.map((t,i)=>`<article class="trend-card"><div class="trend-art look-${i%5+1}" style="--artbg:${t[4]};--fabric:${t[5]};--pattern:${t[6]};--size:${t[7]};--tilt:${i%2?"2deg":"-2deg"}"><span class="pattern"></span><span class="shape-accent"></span><span class="art-caption">ORIGINAL DEMO ART · NOT SOURCE MEDIA</span></div><div class="trend-card-body"><div class="trend-id"><span>CONCEPT ${String(i+1).padStart(2,"0")}</span><span>${t[1]}</span></div><h3>${t[0]}</h3><p>${t[3]}</p><footer><span>SIMULATED CUE</span><span class="signal-confidence">NEEDS VALIDATION</span></footer></div></article>`).join("");
+  const filter=document.querySelector("[data-trend-filter].active")?.dataset.trendFilter||"ALL";
+  const list=filter==="ALL"?trendIdeas:trendIdeas.filter(item=>item[1]===filter);
+  document.querySelector("#trend-grid").innerHTML=list.map((t,i)=>`<article class="trend-card" data-trend-category="${t[1]}"><div class="trend-card-body"><div class="trend-id"><span>REFERENCE ${String(i+1).padStart(2,"0")}</span><span>${t[1]}</span></div><h3>${t[0]}</h3><p>${t[3]}</p><footer><span>NO SOURCE IMAGE</span><span class="signal-confidence">VALIDATION REQUIRED</span></footer><button class="tiny-button" data-trend-action="${escapeHTML(t[0])}">Add to review queue</button></div></article>`).join("");
+}
+function storeTargetRows(){
+  const regionFilter=document.querySelector("#store-region-filter")?.value||"all";
+  const shift=Number(document.querySelector("#store-target-shift")?.value||0);
+  const selected=storePlans.filter(s=>s.region===regionFilter);
+  const others=storePlans.filter(s=>regionFilter!=="all"&&s.region!==regionFilter);
+  const total=storePlans.reduce((sum,s)=>sum+s.plan,0);
+  const selectedBase=selected.reduce((sum,s)=>sum+s.plan,0);
+  const selectedTarget=regionFilter==="all"?total:selectedBase*(1+shift/100);
+  const otherBase=others.reduce((sum,s)=>sum+s.plan,0);
+  const rows=storePlans.map(store=>{
+    let plan=store.plan;
+    if(regionFilter!=="all"){
+      if(store.region===regionFilter)plan=Math.round(store.plan*(1+shift/100));
+      else if(otherBase>0)plan=Math.round(store.plan*(total-selectedTarget)/otherBase);
+    }
+    return {...store,scenarioPlan:plan};
+  });
+  if(regionFilter!=="all"&&others.length){
+    const difference=total-rows.reduce((sum,row)=>sum+row.scenarioPlan,0);
+    rows.find(row=>row.region===others[others.length-1].region&&row.store===others[others.length-1].store).scenarioPlan+=difference;
+  }
+  return rows;
+}
+function renderStorePlans(){
+  const rows=storeTargetRows();
+  document.querySelector("#store-plan-rows").innerHTML=rows.map(s=>{
+    const variance=(s.actual-s.scenarioPlan)/s.scenarioPlan*100;
+    return `<tr><td><b>${escapeHTML(s.store)}</b><small class="sku-code">${escapeHTML(s.city)}</small></td><td>${s.region}</td><td>${s.tier}</td><td>$${s.scenarioPlan.toLocaleString()}</td><td>$${s.actual.toLocaleString()}</td><td class="${variance>=0?"positive-text":"negative-text"}">${variance>=0?"+":""}${variance.toFixed(1)}%</td><td>${s.cover.toFixed(1)} wks</td><td><span class="status-pill ${s.exception.includes("Low")||s.exception.includes("Review")?"watch":""}">${s.exception}</span></td></tr>`;
+  }).join("");
+  const region=document.querySelector("#store-region-filter").value;
+  const shift=Number(document.querySelector("#store-target-shift").value);
+  const total=rows.reduce((sum,s)=>sum+s.scenarioPlan,0);
+  document.querySelector("#store-shift-label").textContent=region==="all"?`Baseline total $${total.toLocaleString()}. Select a region to model a redistribution.`:`${shift>0?"+":""}${shift}% · Total remains $${total.toLocaleString()}`;
+  document.querySelector("#store-target-shift").disabled=region==="all";
+}
+function renderMetrics(){
+  document.querySelector("#metric-rows").innerHTML=metricDefinitions.map(row=>`<tr><td><b>${row[0]}</b></td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td><span class="status-pill ${row[5].includes("DRAFT")||row[5].includes("NOT")?"watch":""}">${row[5]}</span></td></tr>`).join("");
+}
+function runSelfServiceQuery(){
+  const metric=document.querySelector("#query-metric").value;
+  const category=document.querySelector("#query-category").value;
+  const channel=document.querySelector("#query-channel").value;
+  if(metric==="Weeks of supply"){
+    document.querySelector("#query-result").textContent="No result: this demo has no complete historical inventory snapshot. Upload inventory history before calculating weeks of supply.";
+    return;
+  }
+  if(channel!=="all"){
+    document.querySelector("#query-result").textContent="No result: the sample dataset has no verified channel-level breakout. Upload channel-tagged sales data before querying Stores or Online.";
+    return;
+  }
+  const filtered=styles.filter(s=>!category||s[1]===category);
+  let result;
+  if(metric==="Net sales")result=filtered.reduce((sum,s)=>sum+s[8],0);
+  else if(metric==="Units sold")result=filtered.reduce((sum,s)=>sum+s[4],0);
+  else result=filtered.reduce((sum,s)=>sum+s[5]*s[4],0)/Math.max(1,filtered.reduce((sum,s)=>sum+s[4],0));
+  const formatted=metric==="Net sales"?`$${Math.round(result).toLocaleString()}`:metric==="Units sold"?`${Math.round(result).toLocaleString()} units`:`${result.toFixed(1)}%`;
+  document.querySelector("#query-result").innerHTML=`<b>${escapeHTML(metric)}:</b> ${formatted}<span> · ${filtered.length} styles · All channels · Sample data</span>`;
 }
 function renderTasks(){
-  document.querySelector("#action-list").innerHTML=tasks.map((t,i)=>`<div class="action-row ${t[6]==="DONE"?"done":""}" data-task-index="${i}"><div class="action-date"><b>${t[0]}</b>${t[1]}</div><div class="action-kind">${t[2]}</div><div class="action-desc"><b>${t[3]}</b><p>${t[4]}</p></div><div class="action-owner">${t[5]}<small>${t[6]}</small></div><button class="tiny-button" data-decision="${t[3]}">Open →</button></div>`).join("");
+  const currentOwner=roleProfiles[getRole()]?.name;
+  const list=tasks.filter(task=>{
+    if(activeTaskFilter==="COMPLETED")return task[6]==="DONE";
+    if(activeTaskFilter==="APPROVALS")return false;
+    if(activeTaskFilter==="MY QUEUE")return task[5]===currentOwner;
+    return true;
+  });
+  document.querySelector("#action-list").innerHTML=list.length?list.map(t=>`<div class="action-row ${t[6]==="DONE"?"done":""}"><div class="action-date"><b>${escapeHTML(t[0])}</b>${escapeHTML(t[1])}</div><div class="action-kind">${escapeHTML(t[2])}</div><div class="action-desc"><b>${escapeHTML(t[3])}</b><p>${escapeHTML(t[4])}</p></div><div class="action-owner">${escapeHTML(t[5])}<small>${escapeHTML(t[6])}</small></div><button class="tiny-button" data-decision="${escapeHTML(t[3])}">Open →</button></div>`).join(""):'<p class="empty-state">No tasks in this view.</p>';
+  document.querySelector("#action-list").hidden=activeTaskFilter==="APPROVALS";
+  document.querySelector("#approval-list").closest(".approval-panel").hidden=activeTaskFilter==="COMPLETED";
+  document.querySelectorAll("[data-task-filter]").forEach(button=>button.classList.toggle("active",button.dataset.taskFilter===activeTaskFilter));
 }
 function showToast(message){
   const el=document.querySelector("#toast");el.textContent=message;el.classList.add("show");
   clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.classList.remove("show"),2800);
 }
-const labels={overview:"OVERVIEW",merch:"MERCHANDISING",planning:"PLANNING",allocation:"ALLOCATION",trends:"TREND INTELLIGENCE",actions:"ACTION CENTER",data:"DATA ROOM"};
+const labels={overview:"OVERVIEW",merch:"MERCHANDISING",planning:"PLANNING","store-planning":"STORE PLANNING",allocation:"ALLOCATION",trends:"TREND INTELLIGENCE",analytics:"MP&A ANALYTICS",actions:"ACTION CENTER",data:"DATA ROOM"};
 function setView(name){
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active-view"));
   document.querySelector(`#view-${name}`)?.classList.add("active-view");
   document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
   document.querySelector("#crumb-view").textContent=labels[name]||name.toUpperCase();
   if(name==="merch")renderAssets();
+  if(name==="store-planning")renderStorePlans();
   if(name==="allocation")renderAllocation();
-  if(name==="actions")renderApprovals();
+  if(name==="analytics")renderMetrics();
+  if(name==="actions"){renderApprovals();renderTasks();}
   window.scrollTo({top:0,behavior:"smooth"});
 }
 document.addEventListener("click",event=>{
@@ -242,21 +360,35 @@ document.querySelector("#decision-dialog").addEventListener("close",()=>{
   document.querySelector("#decision-note").setCustomValidity("");
 });
 document.querySelector("#style-search").addEventListener("input",e=>renderMerchRows(e.target.value));
-document.querySelector("#scenario-button").addEventListener("click",()=>showToast("Scenario draft created. Connect verified sales and supply data to calculate impact."));
-document.querySelector("#run-scenario").addEventListener("click",()=>showToast("Scenario preview ready — simulated inputs only, no plan was changed."));
-document.querySelector("#trend-refresh").addEventListener("click",()=>showToast("Source status checked: Vogue RSS link available; Instagram requires authorized API setup."));
-document.querySelector("#alloc-filter").addEventListener("click",()=>showToast("Filter options are available in the full product; demo shows all proposals."));
-document.querySelector("#new-action").addEventListener("click",()=>showToast("New action form would capture owner, due date, evidence and approval path."));
+document.querySelector("#category-filter").addEventListener("change",()=>renderMerchRows(document.querySelector("#style-search").value));
+document.querySelector("#scenario-button").addEventListener("click",()=>{
+  document.querySelector(".scenario-panel").scrollIntoView({behavior:"smooth",block:"center"});
+  document.querySelector("#scenario-demand").focus({preventScroll:true});
+});
+document.querySelector("#scenario-demand").addEventListener("input",event=>{
+  document.querySelector("#scenario-demand-label").textContent=`${Number(event.target.value)>0?"+":""}${event.target.value}%`;
+});
+document.querySelector("#run-scenario").addEventListener("click",()=>{
+  const shift=Number(document.querySelector("#scenario-demand").value);
+  const base=42800000;
+  const projected=base*(1+shift/100);
+  document.querySelector("#scenario-output").innerHTML=`<b>Illustrative net sales:</b> $${Math.round(projected).toLocaleString()}<small>Base plan $${base.toLocaleString()} × ${shift>0?"+":""}${shift}% scenario input. No supply, margin or store-level effect modeled.</small>`;
+});
+document.querySelector("#trend-refresh").addEventListener("click",()=>setView("data"));
+document.querySelector("#alloc-filter").addEventListener("change",renderAllocation);
+document.querySelector("#new-action").addEventListener("click",()=>document.querySelector("#new-action-dialog").showModal());
 document.querySelector("#submit-transfers").addEventListener("click",submitSelectedTransfers);
 document.querySelector("#allocation-rows").addEventListener("change",event=>{
   if(event.target.matches(".transfer-check"))updateSelectedTransfers();
 });
 document.querySelector("#role-switch").addEventListener("change",event=>{
   const role=event.target.value;
-  const names={Merchandiser:["Alex Morgan","Merchandising · East"],Planner:["Sam Rivera","Planning · US"],Allocator:["Jordan Kim","Allocation · East"]};
-  document.querySelector(".profile-button b").textContent=names[role][0];
-  document.querySelector(".profile-button small").textContent=names[role][1];
+  const profile=roleProfiles[role];
+  document.querySelector(".profile-button b").textContent=profile.name;
+  document.querySelector(".profile-button small").textContent=profile.team;
+  document.querySelector("#new-action-owner").value=profile.name;
   renderApprovals();
+  renderTasks();
 });
 document.querySelector("#asset-file").addEventListener("change",event=>{
   const file=event.target.files?.[0];
@@ -297,10 +429,13 @@ document.querySelector("#save-asset").addEventListener("click",async()=>{
   const sku=document.querySelector("#asset-sku").value;
   try{
     const imageData=await createThumbnail(selectedAssetFile);
-    assetBySku[sku]={data:imageData,type:document.querySelector("#asset-type").value,owner:"Alex Morgan · Merch"};
+    const source=document.querySelector("#asset-source").value.trim();
+    if(source&&new URL(source).protocol!=="https:")throw new Error("Asset source reference must use HTTPS.");
+    assetBySku[sku]={data:imageData,type:document.querySelector("#asset-type").value,owner:document.querySelector(".profile-button b").textContent+" · Merch",source,filename:selectedAssetFile.name};
     localStorage.setItem(ASSET_STORAGE_KEY,JSON.stringify(assetBySku));
     renderAssets();
     document.querySelector("#asset-file").value="";
+    document.querySelector("#asset-source").value="";
     selectedAssetFile=null;
     document.querySelector("#asset-preview").innerHTML="<span>IMAGE SAVED</span>";
     document.querySelector("#validate-asset").disabled=true;
@@ -329,7 +464,70 @@ function createThumbnail(file){
     image.src=url;
   });
 }
-document.querySelector("#export-alloc").addEventListener("click",()=>downloadCSV("demo-allocation-review.csv",["style_color,location,on_hand,weekly_rate,cover_weeks,suggested_qty,reason",...allocation.map(a=>[a[0],a[1],a[2],a[3],a[4],a[5],a[6]].map(v=>`"${String(v).replaceAll('"','""')}"`).join(","))]));
+document.querySelector("#export-alloc").addEventListener("click",()=>downloadCSV("demo-allocation-review.csv",[
+  "sku,style,receiving_store,donor_store,receiver_on_hand,weekly_units,inbound_units,donor_available,quota,suggested_qty,reason",
+  ...allocation.map(item=>[
+    item.sku,item.style,item.receive,item.donor,item.onHand,item.weekly,item.inbound,
+    item.donorAvailable,item.quota,allocationProposal(item),item.reason
+  ].map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))
+]));
+document.querySelector("#store-region-filter").addEventListener("change",renderStorePlans);
+document.querySelector("#store-target-shift").addEventListener("input",renderStorePlans);
+document.querySelector("#reset-store-plan").addEventListener("click",()=>{
+  document.querySelector("#store-region-filter").value="all";
+  document.querySelector("#store-target-shift").value="0";
+  renderStorePlans();
+});
+document.querySelector("#export-store-plan").addEventListener("click",()=>{
+  const rows=storeTargetRows();
+  downloadCSV("demo-store-plan.csv",["store,city,region,tier,plan_usd,actual_usd,stock_cover_weeks",...rows.map(row=>[row.store,row.city,row.region,row.tier,row.scenarioPlan,row.actual,row.cover].map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))]);
+});
+document.querySelector("#export-metrics").addEventListener("click",()=>downloadCSV("mpa-metric-dictionary-demo.csv",["metric,definition,source,owner,version,status",...metricDefinitions.map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))]));
+document.querySelector("#run-query").addEventListener("click",runSelfServiceQuery);
+document.querySelector("#channel-filter").addEventListener("change",event=>{
+  const values={all:{sales:"$8.42M",sellThrough:"68.4%",wos:"7.2",insight:"Outerwear: +11% vs plan. Synthetic demo result. Validate against current inventory and actual weather before taking action."},store:{sales:"$5.22M",sellThrough:"70.1%",wos:"6.8",insight:"Store channel sample selected. Outerwear is +8% vs plan in this synthetic dataset."},online:{sales:"$3.20M",sellThrough:"65.7%",wos:"7.9",insight:"Online channel sample selected. Outerwear is +15% vs plan in this synthetic dataset."}};
+  const data=values[event.target.value];
+  document.querySelector("#kpi-sales").textContent=data.sales;
+  document.querySelectorAll("#view-overview .kpi-card")[1].querySelector("strong").textContent=data.sellThrough;
+  document.querySelectorAll("#view-overview .kpi-card")[2].querySelector("strong").innerHTML=`${data.wos} <small class="unit">WKS</small>`;
+  document.querySelector("#dashboard-insight").textContent=data.insight;
+});
+document.querySelectorAll("[data-trend-filter]").forEach(button=>button.addEventListener("click",()=>{
+  document.querySelectorAll("[data-trend-filter]").forEach(item=>item.classList.toggle("active",item===button));
+  renderTrends();
+}));
+document.querySelector("#trend-grid").addEventListener("click",event=>{
+  const button=event.target.closest("[data-trend-action]");
+  if(!button)return;
+  const name=button.dataset.trendAction;
+  tasks.unshift(["16","NOV","MERCH",`Review trend: ${name}`,"Trend taxonomy reference added manually. Attach a source, date and sell-through evidence before using in a forecast.",document.querySelector(".profile-button b").textContent,"OPEN"]);
+  renderTasks();
+  showToast(`“${name}” added to the action queue.`);
+});
+document.querySelectorAll("[data-task-filter]").forEach(button=>button.addEventListener("click",()=>{
+  activeTaskFilter=button.dataset.taskFilter;
+  renderTasks();
+}));
+document.querySelector(".profile-button").addEventListener("click",()=>document.querySelector("#role-switch").focus());
+document.querySelector("#help-button").addEventListener("click",()=>document.querySelector("#help-dialog").showModal());
+document.querySelector("#new-action-form").addEventListener("submit",event=>{
+  if(event.submitter?.value!=="create")return;
+  event.preventDefault();
+  const title=document.querySelector("#new-action-title").value.trim();
+  const owner=document.querySelector("#new-action-owner").value;
+  const functionName=document.querySelector("#new-action-function").value;
+  const date=new Date(`${document.querySelector("#new-action-due").value}T12:00:00`);
+  const context=document.querySelector("#new-action-context").value.trim()||"No additional context.";
+  if(!title||Number.isNaN(date.getTime()))return;
+  tasks.unshift([String(date.getDate()).padStart(2,"0"),date.toLocaleString("en-US",{month:"short"}).toUpperCase(),functionName,title,context,owner,"OPEN"]);
+  document.querySelector("#new-action-dialog").close();
+  event.currentTarget.reset();
+  renderTasks();
+  showToast("Action created in this demo session.");
+});
+document.querySelector("#download-all-templates").addEventListener("click",()=>{
+  downloadCSV("mpa-csv-schema.csv",["data_type,required_columns",...Object.entries(templateFields).map(([type,fields])=>`"${type}","${fields}"`)]);
+});
 const templateFields={
   sales:"week,channel,store_id,sku,units,net_sales_usd,returns_units,discount_pct",
   inventory:"as_of_date,location_id,sku,on_hand_units,in_transit_units,reserved_units",
@@ -339,11 +537,11 @@ const templateFields={
 };
 function downloadCSV(name,lines){
   const blob=new Blob([lines.join("\n")],{type:"text/csv;charset=utf-8"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href);
+  const url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function downloadTemplate(type){downloadCSV(`merch-studio-${type}-template.csv`,[templateFields[type]])}
 document.querySelector("#download-template").addEventListener("click",()=>downloadTemplate(document.querySelector("#upload-type").value));
-document.querySelector("#download-all-templates").addEventListener("click",()=>downloadTemplate(document.querySelector("#upload-type").value));
 function parseCSV(text){
   const rows=[];let row=[],cell="",quoted=false;
   for(let i=0;i<text.length;i++){
@@ -379,4 +577,4 @@ document.querySelector(".upload-zone").addEventListener("drop",e=>{
   const input=document.querySelector("#csv-upload");
   const transfer=new DataTransfer();transfer.items.add(file);input.files=transfer.files;input.dispatchEvent(new Event("change"));
 });
-renderTopStyles();renderMerchRows();renderRegions();renderPlanRows();renderAllocation();renderTrends();renderTasks();renderAssets();renderApprovals();
+initializeCategoryFilters();renderTopStyles();renderMerchRows();renderRegions();renderPlanRows();renderAllocation();renderTrends();renderTasks();renderAssets();renderApprovals();renderStorePlans();renderMetrics();

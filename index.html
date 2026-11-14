@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="workflow-enhancements.css">
 </head>
 <body>
   <div class="app-shell">
@@ -19,7 +20,7 @@
       </a>
       <div class="season-switch">
         <span class="eyebrow">WORKSPACE</span>
-        <button class="season-button">SEASON 4 <span>2026</span><b>⌄</b></button>
+        <div class="season-button season-static">SEASON 4 <span>2026</span><small>ACTIVE DEMO SEASON</small></div>
         <span class="season-state"><i></i> DEMO DATASET</span>
       </div>
       <nav class="main-nav" aria-label="Main navigation">
@@ -27,8 +28,10 @@
         <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span>Overview <span class="nav-count">04</span></button>
         <button class="nav-item" data-view="merch"><span class="nav-icon">◇</span>Merchandising</button>
         <button class="nav-item" data-view="planning"><span class="nav-icon">↗</span>Planning</button>
+        <button class="nav-item" data-view="store-planning"><span class="nav-icon">⌂</span>Store planning</button>
         <button class="nav-item" data-view="allocation"><span class="nav-icon">⌗</span>Allocation <span class="nav-count alert">3</span></button>
         <button class="nav-item" data-view="trends"><span class="nav-icon">✳</span>Trend intelligence</button>
+        <button class="nav-item" data-view="analytics"><span class="nav-icon">▥</span>MP&amp;A analytics</button>
         <span class="nav-group nav-group-spaced">OPERATIONS</span>
         <button class="nav-item" data-view="actions"><span class="nav-icon">☷</span>Action center <span class="nav-count">8</span></button>
         <button class="nav-item" data-view="data"><span class="nav-icon">▤</span>Data room</button>
@@ -53,11 +56,13 @@
             <select id="role-switch" aria-label="Switch demo role">
               <option value="Merchandiser">Merchandiser</option>
               <option value="Planner">Planner</option>
+              <option value="Store Planner">Store Planner</option>
               <option value="Allocator">Allocator</option>
+              <option value="Merch Analytics">Merch Analytics</option>
             </select>
           </label>
-          <button class="icon-button" aria-label="Notifications">♧<em></em></button>
-          <button class="help-button">HELP &amp; NOTES</button>
+          <button class="icon-button" aria-label="Open action queue" data-view="actions">♧<em></em></button>
+          <button class="help-button" id="help-button">HELP &amp; NOTES</button>
         </div>
       </header>
 
@@ -71,7 +76,7 @@
         <div class="page-heading">
           <div><span class="eyebrow">MONDAY, NOVEMBER 9, 2026 <i>·</i> EAST REGION</span><h1>Trading <em>overview</em></h1>
             <p>Sales, inventory and decisions requiring review.</p></div>
-          <div class="heading-controls"><button class="select-button">All channels <b>⌄</b></button><button class="primary-button" data-view="actions">Review 4 actions <span>→</span></button></div>
+          <div class="heading-controls"><select id="channel-filter" class="select-button" aria-label="Filter dashboard channel"><option value="all">All channels</option><option value="store">Stores</option><option value="online">Online</option></select><button class="primary-button" data-view="actions">Review 4 actions <span>→</span></button></div>
         </div>
         <div class="kpi-grid">
           <article class="kpi-card"><div class="kpi-top"><span>NET SALES</span><span class="kpi-icon">↗</span></div><strong id="kpi-sales">$8.42M</strong><div class="kpi-foot"><span class="positive">+4.8%</span> vs. plan <small>WEEK 46 TO DATE</small></div><div class="sparkline navy"></div></article>
@@ -96,15 +101,15 @@
               </svg>
               <div class="x-labels"><span>SEP 7</span><span>SEP 21</span><span>OCT 5</span><span>OCT 19</span><span>NOV 2</span><span>NOV 9</span></div>
             </div>
-            <div class="chart-insight"><span class="insight-mark">i</span><p><b>Outerwear: +11% vs plan.</b> Synthetic demo result. Validate against current inventory and actual weather before taking action.</p><span class="confidence">DEMO ONLY</span></div>
+            <div class="chart-insight"><span class="insight-mark">i</span><p id="dashboard-insight"><b>Outerwear: +11% vs plan.</b> Synthetic demo result. Validate against current inventory and actual weather before taking action.</p><span class="confidence">DEMO ONLY</span></div>
           </article>
           <article class="panel attention-panel">
             <div class="panel-heading"><div><span class="eyebrow">OPEN ITEMS</span><h2>4 items require review</h2></div><button class="round-arrow" data-view="actions">→</button></div>
             <div class="attention-list">
-              <div class="attention-item"><span class="priority high">NOW</span><div><b>Cashmere crewneck · Oat</b><p>3 Northeast stores below 2 weeks of cover.</p><small>ALLOCATION <i>·</i> 18 MIN AGO</small></div><button class="small-arrow" data-action="Review cover">↗</button></div>
-              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Classic trench · Stone</b><p>Demand is 9% under plan; check size curve.</p><small>PLANNING <i>·</i> 1 HR AGO</small></div><button class="small-arrow" data-action="Review size curve">↗</button></div>
-              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Fair Isle cardigan · Multi</b><p>Trend signal is rising; validate with sell-through.</p><small>MERCH <i>·</i> 3 HRS AGO</small></div><button class="small-arrow" data-action="Review trend">↗</button></div>
-              <div class="attention-item"><span class="priority low">TODAY</span><div><b>Holiday gift edit</b><p>Confirm web assortment readiness by 3 PM.</p><small>MERCH <i>·</i> DUE TODAY</small></div><button class="small-arrow" data-action="Open assortment">↗</button></div>
+              <div class="attention-item"><span class="priority high">NOW</span><div><b>Cashmere crewneck · Oat</b><p>3 Northeast stores below 2 weeks of cover.</p><small>ALLOCATION <i>·</i> 18 MIN AGO</small></div><button class="small-arrow" data-decision="Review cashmere cover in Northeast" aria-label="Review cashmere cover">↗</button></div>
+              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Classic trench · Stone</b><p>Demand is 9% under plan; check size curve.</p><small>PLANNING <i>·</i> 1 HR AGO</small></div><button class="small-arrow" data-decision="Review trench size curve" aria-label="Review trench size curve">↗</button></div>
+              <div class="attention-item"><span class="priority medium">REVIEW</span><div><b>Fair Isle cardigan · Multi</b><p>Trend signal is rising; validate with sell-through.</p><small>MERCH <i>·</i> 3 HRS AGO</small></div><button class="small-arrow" data-decision="Validate Fair Isle trend signal" aria-label="Review Fair Isle trend">↗</button></div>
+              <div class="attention-item"><span class="priority low">TODAY</span><div><b>Holiday gift edit</b><p>Confirm web assortment readiness by 3 PM.</p><small>MERCH <i>·</i> DUE TODAY</small></div><button class="small-arrow" data-decision="Confirm holiday gift edit readiness" aria-label="Review holiday gift edit">↗</button></div>
             </div>
             <button class="all-actions" data-view="actions">GO TO ACTION CENTER <b>→</b></button>
           </article>
@@ -128,11 +133,12 @@
         <div class="page-heading compact"><div><span class="eyebrow">MERCHANDISING DESK <i>·</i> SEASON 4</span><h1>Assortment <em>performance</em></h1><p>Review style performance, lifecycle, margin and channel mix.</p></div><button class="primary-button" data-view="trends">Open trend review <span>→</span></button></div>
         <div class="role-strip"><span>YOUR ROLE</span><b>MERCHANDISER</b><span>FOCUS</span><b>ASSORTMENT HEALTH · LIFECYCLE · TREND VALIDATION</b></div>
         <article class="panel asset-panel">
-          <div class="panel-heading"><div><span class="eyebrow">SKU ASSET MANAGER</span><h2>Upload and verify product images</h2><p>Select an ERP SKU, choose the image type and review the match before saving.</p></div><span class="source-tag">LOCAL DEMO · AI NOT CONNECTED</span></div>
+          <div class="panel-heading"><div><span class="eyebrow">SKU ASSET MANAGER</span><h2>Upload and verify product images</h2><p>Select an ERP SKU, choose the image type and review the match before saving.</p></div><span class="source-tag">AUTHORIZED ASSETS · LOCAL DEMO</span></div>
           <div class="asset-workflow">
             <label class="field-label">SKU<select id="asset-sku" class="field-input"></select></label>
             <label class="field-label">IMAGE TYPE<select id="asset-type" class="field-input"><option>Primary</option><option>On-model</option><option>Detail</option></select></label>
             <label class="asset-file" for="asset-file"><b>Choose product image</b><small>JPG, PNG or WebP · local preview only</small></label><input id="asset-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <label class="field-label asset-source-field">ASSET SOURCE<input id="asset-source" class="field-input" type="url" placeholder="Authorized DAM reference (optional)"></label>
             <button class="outline-button" id="validate-asset" disabled>Run demo match check</button>
             <button class="primary-button" id="save-asset" disabled>Save SKU image <span>→</span></button>
           </div>
@@ -145,7 +151,7 @@
           <article class="kpi-card"><div class="kpi-top"><span>LIFECYCLE FLAGS</span><span class="kpi-icon">◷</span></div><strong>06</strong><div class="kpi-foot"><span class="negative">2 need a decision</span><small>WITHIN 7 DAYS</small></div></article>
         </div>
         <div class="content-grid">
-          <article class="panel table-panel wide-panel"><div class="panel-heading"><div><span class="eyebrow">STYLE PERFORMANCE · DEMO</span><h2>Style and SKU detail</h2><p>All values are synthetic prototype data.</p></div><div class="table-tools"><input id="style-search" class="search-input" placeholder="Search styles..." aria-label="Search styles"><button class="select-button">All categories⌄</button></div></div>
+          <article class="panel table-panel wide-panel"><div class="panel-heading"><div><span class="eyebrow">STYLE PERFORMANCE · DEMO</span><h2>Style and SKU detail</h2><p>All values are synthetic prototype data.</p></div><div class="table-tools"><input id="style-search" class="search-input" placeholder="Search styles..." aria-label="Search styles"><select id="category-filter" class="select-button" aria-label="Filter by category"><option value="">All categories</option></select></div></div>
             <div class="table-scroll"><table><thead><tr><th>STYLE / SKU</th><th>CATEGORY</th><th>COLOR</th><th>NET UNITS</th><th>SELL-THROUGH</th><th>FORECAST SIGNAL</th><th>STATUS</th></tr></thead><tbody id="merch-rows"></tbody></table></div>
           </article>
           <article class="panel"><div class="panel-heading"><div><span class="eyebrow">CATEGORY SUMMARY · DEMO</span><h2>Knitwear</h2></div><span class="confidence">SYNTHETIC DATA</span></div><p class="editorial-copy">In this sample, knitwear sell-through and sales variance are above the other listed groups. Check size availability, margin and inbound inventory before changing buys or allocation.</p><button class="outline-button" data-view="trends">Review trend inputs</button></article>
@@ -168,8 +174,8 @@
           <article class="panel"><div class="panel-heading"><div><span class="eyebrow">SCENARIO ANALYSIS</span><h2>Demand assumptions</h2></div></div>
             <label class="field-label">SCENARIO NAME<input class="field-input" value="Cooler Northeast / base elsewhere"></label>
             <label class="field-label">WEATHER INPUT<select class="field-input"><option>Short range + seasonal probability</option><option>Historical seasonal normal</option><option>Manual scenario assumption</option></select></label>
-            <label class="field-label">DEMAND CHANGE<input class="field-input" type="range" min="-15" max="15" value="4"><span class="range-scale">−15% <b>+4%</b> +15%</span></label>
-            <div class="scenario-note">Scenario impact is illustrative until connected to verified sales, inventory and supply data.</div><button class="primary-button full-button" id="run-scenario">Run comparison <span>→</span></button>
+            <label class="field-label">DEMAND CHANGE<input id="scenario-demand" class="field-input" type="range" min="-15" max="15" value="4"><span class="range-scale">−15% <b id="scenario-demand-label">+4%</b> +15%</span></label>
+            <div class="scenario-note">Scenario impact is illustrative until connected to verified sales, inventory and supply data.</div><button class="primary-button full-button" id="run-scenario">Run comparison <span>→</span></button><div id="scenario-output" class="scenario-output" aria-live="polite"></div>
           </article>
         </div>
         <div class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">PLAN VS ACTUAL · DEMO</span><h2>By merchandise group</h2></div><button class="text-button" data-view="data">See metric definitions <b>→</b></button></div>
@@ -178,11 +184,19 @@
         <article class="panel formula-panel"><span class="eyebrow">METRIC DEFINITIONS · DEMO DEFAULTS</span><div><b>OTB remaining</b><span>OTB budget − open-to-buy commitments. Confirm inclusion of receipts, on-order and cancellations with Finance/Planning.</span></div><div><b>Sell-through</b><span>Units sold ÷ (units sold + ending on-hand). Production definition must specify returns and stockout handling.</span></div><div><b>WOS</b><span>Available units ÷ average weekly unit sales. The sales lookback and treatment of zero demand must be configured.</span></div><div><b>GMV</b><span>Not yet shown: gross merchandise value needs an agreed gross/net, discount and return policy before calculation.</span></div></article>
       </section>
 
+      <section class="view" id="view-store-planning">
+        <div class="page-heading compact"><div><span class="eyebrow">STORE PLANNING <i>·</i> SEASON 4</span><h1>Store-level <em>targets</em></h1><p>Review store plans, actuals and the allocation baseline. Store tiers use demo performance inputs only.</p></div><button class="primary-button" id="export-store-plan">Export store plan <span>↓</span></button></div>
+        <div class="role-strip"><span>YOUR ROLE</span><b>STORE PLANNER</b><span>FOCUS</span><b>STORE SALES TARGETS · PLAN RECONCILIATION · EXCEPTIONS</b></div>
+        <div class="allocation-summary store-summary"><div><span class="eyebrow">STORES IN SCOPE</span><strong>12</strong><small>Sample locations</small></div><div><span class="eyebrow">TOTAL SALES PLAN</span><strong>$4.80M</strong><small>Reconciles to sample category plan</small></div><div><span class="eyebrow">PLAN / ACTUAL</span><strong>+2.6%</strong><small>Demo season-to-date variance</small></div><div><span class="eyebrow">PLAN EXCEPTIONS</span><strong>03</strong><small>Require review</small></div></div>
+        <article class="panel scenario-panel"><div class="panel-heading"><div><span class="eyebrow">STORE PLAN SCENARIO</span><h2>Adjust regional target distribution</h2><p>Changes reallocate a fixed total; they do not increase the company plan.</p></div></div>        <div class="store-plan-controls"><label>Region<select id="store-region-filter" class="field-input"><option value="all">All regions</option><option value="Northeast">Northeast</option><option value="Southeast">Southeast</option><option value="Midwest">Midwest</option><option value="West">West</option></select></label><label>Target shift<input id="store-target-shift" type="range" min="-10" max="10" value="0"><span id="store-shift-label">Select a region to redistribute the fixed total ($4.79M).</span></label><button class="outline-button" id="reset-store-plan">Reset scenario</button></div></article>
+        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">STORE PLAN VS ACTUAL · DEMO</span><h2>Store targets</h2></div><span class="source-tag">TIER IS ILLUSTRATIVE</span></div><div class="table-scroll"><table><thead><tr><th>STORE</th><th>REGION</th><th>DEMO TIER</th><th>SALES PLAN</th><th>ACTUAL</th><th>VARIANCE</th><th>STOCK COVER</th><th>EXCEPTION</th></tr></thead><tbody id="store-plan-rows"></tbody></table></div></article>
+      </section>
+
       <section class="view" id="view-allocation">
         <div class="page-heading compact"><div><span class="eyebrow">ALLOCATION DESK <i>·</i> SEASON 4</span><h1>Store <em>replenishment</em></h1><p>Review suggested quantities before approval or export.</p></div><button class="primary-button" id="export-alloc">Export review CSV <span>↓</span></button></div>
         <div class="role-strip"><span>YOUR ROLE</span><b>ALLOCATOR</b><span>FOCUS</span><b>STORE COVER · SIZE CURVE · REPLENISHMENT · TRANSFERS</b></div>
         <div class="allocation-summary"><div><span class="eyebrow">PROPOSALS READY</span><strong>03</strong><small>Require human review</small></div><div><span class="eyebrow">LOW COVER FLAGS</span><strong>07</strong><small>Across 5 demo locations</small></div><div><span class="eyebrow">TRANSFER OPPORTUNITY</span><strong>02</strong><small>Inventory imbalance detected</small></div><div><span class="eyebrow">DATA HEALTH</span><strong class="health-good">96%</strong><small>Demo record completeness</small></div></div>
-        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">REPLENISHMENT REVIEW QUEUE</span><h2>Transfer proposals</h2><p>Suggested quantity is capped by donor stock and quota; review before submitting for Merch approval.</p></div><button class="select-button" id="alloc-filter">All priorities⌄</button></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">REPLENISHMENT REVIEW QUEUE</span><h2>Transfer proposals</h2><p>Suggested quantity is capped by donor stock and quota; review before submitting for Merch approval.</p></div><select class="select-button" id="alloc-filter" aria-label="Filter transfer proposals"><option value="all">All proposals</option><option value="actionable">Actionable</option><option value="no-need">No transfer need</option></select></div>
           <div class="table-scroll"><table><thead><tr><th>STYLE / SKU</th><th>IMAGE</th><th>RECEIVING STORE</th><th>DONOR STORE</th><th>RECEIVER ON HAND</th><th>WEEKLY RATE</th><th>INBOUND</th><th>PROPOSED QTY</th><th>QUOTA</th><th>REASON</th><th>SELECT</th></tr></thead><tbody id="allocation-rows"></tbody></table></div>
           <div class="submit-transfer"><span id="selected-transfer-count">0 proposals selected</span><button class="primary-button" id="submit-transfers" disabled>Submit for Merch approval <span>→</span></button></div>
         </article>
@@ -190,20 +204,27 @@
       </section>
 
       <section class="view" id="view-trends">
-        <div class="page-heading compact"><div><span class="eyebrow">TREND INTELLIGENCE <i>·</i> SOURCE STATUS</span><h1>Trend <em>signal review</em></h1><p>30 synthetic reference cards for layout testing. They are not sourced images or verified trends.</p></div><button class="select-button" id="trend-refresh">Check source status ↻</button></div>
+        <div class="page-heading compact"><div><span class="eyebrow">TREND INTELLIGENCE <i>·</i> SOURCE STATUS</span><h1>Trend <em>signal review</em></h1><p>Taxonomy and workflow examples. No third-party images are copied into this demo.</p></div><button class="select-button" id="trend-refresh">Open data room ↗</button></div>
         <div class="source-status-grid">
           <article class="source-card"><div class="source-card-head"><span class="source-logo vogue-logo">V</span><span class="connection connected">RSS LINK AVAILABLE</span></div><h3>Vogue editorial feed</h3><p>RSS exposes discoverable article metadata and links. Article imagery and full text are not copied into this demo.</p><a href="https://www.vogue.com/feed/rss" target="_blank" rel="noreferrer">Open Vogue RSS <b>↗</b></a></article>
           <article class="source-card"><div class="source-card-head"><span class="source-logo ig-logo">◎</span><span class="connection setup">AUTHORIZATION REQUIRED</span></div><h3>Instagram Platform API</h3><p>Connect an eligible Business/Creator account, app review and approved permissions. No Instagram content is fetched in this demo.</p><a href="https://developers.facebook.com/documentation/instagram-platform/" target="_blank" rel="noreferrer">Review Meta API docs <b>↗</b></a></article>
           <article class="source-card"><div class="source-card-head"><span class="source-logo weather-logo">☼</span><span class="connection connected">PUBLIC API DOCUMENTED</span></div><h3>NOAA / National Weather Service</h3><p>Forecasts and seasonal outlooks should carry location, issue time and uncertainty; seasonal outlooks are probabilistic.</p><a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noreferrer">Review weather API <b>↗</b></a></article>
         </div>
-        <div class="trend-toolbar"><div><span class="eyebrow">30 SYNTHETIC DEMO CARDS</span><h2>Reference categories</h2></div><div class="filter-pills"><button class="active">ALL 30</button><button>KNITWEAR</button><button>COLOR</button><button>PRINT</button><button>SHAPE</button></div></div>
+        <div class="trend-toolbar"><div><span class="eyebrow">TREND TAXONOMY · EXAMPLE</span><h2>Review hypotheses against sales</h2></div><div class="filter-pills"><button class="active" data-trend-filter="ALL">ALL</button><button data-trend-filter="KNITWEAR">KNITWEAR</button><button data-trend-filter="COLOR">COLOR</button><button data-trend-filter="PRINT">PRINT</button><button data-trend-filter="SHAPE">SHAPE</button></div></div>
         <div class="trend-grid" id="trend-grid"></div>
-        <div class="trend-disclaimer"><span>ⓘ</span><p>Visuals and trend labels here are synthetic UX examples. To create real signals, connect an authorized feed, preserve source URLs and publication dates, obtain rights for any stored/displayed media, then require Merchandiser validation and historical backtesting before forecasts can use a trend feature.</p></div>
+        <div class="trend-disclaimer"><span>ⓘ</span><p>Trend labels are workflow examples, not current trend findings. Connect an authorized source, retain its URL and publication date, then require Merch validation and historical backtesting before using a trend feature in forecasts. Product imagery must come from an approved brand DAM or other licensed source.</p></div>
+      </section>
+
+      <section class="view" id="view-analytics">
+        <div class="page-heading compact"><div><span class="eyebrow">MP&amp;A ANALYTICS <i>·</i> METRIC GOVERNANCE</span><h1>Metric <em>dictionary</em></h1><p>Definitions, source systems and owners for shared reporting.</p></div><button class="primary-button" id="export-metrics">Export metric definitions <span>↓</span></button></div>
+        <div class="allocation-summary"><div><span class="eyebrow">PUBLISHED METRICS</span><strong>08</strong><small>Demo dictionary</small></div><div><span class="eyebrow">SOURCE RECONCILIATION</span><strong>98.6%</strong><small>Synthetic sample result</small></div><div><span class="eyebrow">OPEN DATA ISSUES</span><strong>04</strong><small>Crosswalk / freshness checks</small></div><div><span class="eyebrow">LAST REVIEW</span><strong>W46</strong><small>Demo owner review</small></div></div>
+        <article class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">APPROVED DEFINITIONS</span><h2>Metric catalog</h2></div><span class="source-tag">DEMO DEFINITIONS · CONFIRM WITH BUSINESS</span></div><div class="table-scroll"><table class="metric-table"><thead><tr><th>METRIC</th><th>DEFINITION</th><th>SOURCE OF RECORD</th><th>OWNER</th><th>VERSION</th><th>STATUS</th></tr></thead><tbody id="metric-rows"></tbody></table></div></article>
+        <article class="panel self-service-panel"><div class="panel-heading"><div><span class="eyebrow">SELF-SERVICE QUERY</span><h2>Build a sourced data view</h2><p>Natural-language input is not used to invent figures; this query uses fixed filters on the demo dataset.</p></div></div><div class="query-controls"><label>Metric<select id="query-metric" class="field-input"><option>Net sales</option><option>Units sold</option><option>Sell-through</option><option>Weeks of supply</option></select></label><label>Category<select id="query-category" class="field-input"><option value="">All categories</option></select></label><label>Channel<select id="query-channel" class="field-input"><option value="all">All channels</option><option value="store">Stores</option><option value="online">Online</option></select></label><button class="primary-button" id="run-query">Run query <span>→</span></button></div><div id="query-result" class="query-result">Select filters and run the query to view results.</div></article>
       </section>
 
       <section class="view" id="view-actions">
         <div class="page-heading compact"><div><span class="eyebrow">ACTION CENTER <i>·</i> WEEK 46</span><h1>Action <em>queue</em></h1><p>Tasks, approvals, owners and due dates.</p></div><button class="primary-button" id="new-action">＋ New action</button></div>
-        <div class="action-filters"><button class="active">MY QUEUE <b>4</b></button><button>TEAM <b>8</b></button><button>APPROVALS <b>2</b></button><button>COMPLETED</button></div>
+        <div class="action-filters"><button class="active" data-task-filter="MY QUEUE">MY QUEUE</button><button data-task-filter="TEAM">TEAM</button><button data-task-filter="APPROVALS">APPROVALS</button><button data-task-filter="COMPLETED">COMPLETED</button></div>
         <article class="panel approval-panel"><div class="panel-heading"><div><span class="eyebrow">MERCH APPROVAL QUEUE</span><h2>Transfer requests</h2><p>Review and approve or reject requests submitted from Allocation.</p></div><span class="source-tag">DEMO WORKFLOW</span></div><div id="approval-list" class="approval-list"><p class="empty-state">No transfer requests submitted.</p></div></article>
         <article class="panel action-panel"><div class="action-list" id="action-list"></div></article>
       </section>
@@ -220,7 +241,7 @@
             <div class="source-register"><div><i class="source-dot ok"></i><span><b>Season 4 demo ledger</b><small>DEMO · synthetic, generated for this prototype</small></span><em>ACTIVE</em></div><div><i class="source-dot wait"></i><span><b>Vogue RSS</b><small>Discover article metadata only; no article/image ingestion</small></span><em>LINK READY</em></div><div><i class="source-dot off"></i><span><b>Instagram Platform API</b><small>Needs Meta app, eligible account, review and permission</small></span><em>NOT CONNECTED</em></div><div><i class="source-dot wait"></i><span><b>NOAA / NWS</b><small>Documented public source; demo uses illustrative values</small></span><em>NOT CONNECTED</em></div><div><i class="source-dot off"></i><span><b>POS / OMS / WMS / ERP</b><small>Internal access and metric mapping required</small></span><em>NEEDS IT</em></div></div>
           </article>
         </div>
-        <article class="panel data-contract"><div class="panel-heading"><div><span class="eyebrow">CSV DATA CONTRACT</span><h2>Suggested first upload fields</h2><p>Keep source IDs, time zones, currency, and metric definitions with every production data feed.</p></div><button class="text-button" id="download-all-templates">Download templates <b>↓</b></button></div>
+        <article class="panel data-contract"><div class="panel-heading"><div><span class="eyebrow">CSV DATA CONTRACT</span><h2>Suggested first upload fields</h2><p>Keep source IDs, time zones, currency, and metric definitions with every production data feed.</p></div><button class="text-button" id="download-all-templates">Download schema index <b>↓</b></button></div>
           <div class="contract-grid"><div><b>Sales</b><code>week, channel, store_id, sku, units, net_sales_usd, returns_units, discount_pct</code></div><div><b>Inventory</b><code>as_of_date, location_id, sku, on_hand_units, in_transit_units, reserved_units</code></div><div><b>Style master</b><code>sku, style_name, category, color, size, launch_date, ticket_price_usd</code></div><div><b>Store master</b><code>store_id, region, city, state, time_zone, open_date, close_date, capacity</code></div></div>
         </article>
         <article class="panel source-method"><span class="eyebrow">EVIDENCE LABELS</span><div><span class="tag observed">OBSERVED</span><span>Source-system record with timestamp and lineage.</span></div><div><span class="tag derived">DERIVED</span><span>Reproducible calculation from observed data and a declared formula.</span></div><div><span class="tag proxy">PROXY</span><span>External signal; never presented as J.Crew actuals.</span></div><div><span class="tag demo">DEMO</span><span>Synthetic prototype values; excluded from production decisions.</span></div></article>
@@ -230,6 +251,8 @@
     </main>
   </div>
   <div class="toast" id="toast" role="status"></div>
+  <dialog id="help-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">DEMO GUIDE</span><h2>Using the MP&amp;A workspace</h2><p>Switch the demo role to view each workbench. Sample figures are illustrative. CSVs and images stay in this browser; transfer approvals are session-only. No upstream system is connected.</p><ul><li>Merchandising: SKU image links and assortment review.</li><li>Planning: OTB, plan vs actual and demand scenarios.</li><li>Store planning: store-level target scenario and reconciliation.</li><li>Allocation: transfer proposal and Merch approval workflow.</li><li>MP&amp;A Analytics: metric definitions and filtered sample query.</li></ul><button class="primary-button" value="close">Close</button></form></dialog>
+  <dialog id="new-action-dialog"><form id="new-action-form" method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">ACTION CENTER</span><h2>Create action</h2><label class="field-label">TITLE<input id="new-action-title" class="field-input" required maxlength="100" placeholder="Describe the review or follow-up"></label><label class="field-label">FUNCTION<select id="new-action-function" class="field-input"><option>MERCH</option><option>PLANNING</option><option>STORE PLANNING</option><option>ALLOCATION</option><option>ANALYTICS</option></select></label><label class="field-label">OWNER<select id="new-action-owner" class="field-input"><option>Alex Morgan</option><option>Sam Rivera</option><option>Taylor Brooks</option><option>Jordan Kim</option><option>Casey Park</option><option>Morgan Lee</option></select></label><label class="field-label">DUE DATE<input id="new-action-due" class="field-input" type="date" required></label><label class="field-label">CONTEXT<textarea id="new-action-context" class="field-input" rows="3" maxlength="300" placeholder="Add source or decision context"></textarea></label><div class="dialog-actions"><button class="outline-button" value="cancel">Cancel</button><button class="primary-button" id="create-action-submit" value="create">Create action <span>→</span></button></div></form></dialog>
   <dialog id="decision-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><span class="eyebrow">REVIEW DECISION</span><h2 id="dialog-title">Review action</h2><p id="dialog-copy"></p><label class="field-label">DECISION NOTE<textarea id="decision-note" class="field-input" rows="3" placeholder="Add context for the team..."></textarea></label><div class="dialog-actions"><button class="outline-button" value="dismiss">Keep in queue</button><button class="primary-button" id="approve-action" value="confirm">Mark reviewed <span>→</span></button></div></form></dialog>
   <script src="app.js"></script>
 </body>
